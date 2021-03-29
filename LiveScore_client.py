@@ -22,6 +22,6 @@ client_socket.connect(address)
 username = input("Username: ")
 password = input("Password: ")
 
-client_socket.send(username)
-client_socket.send(password)
+client_socket.send(bytes(username,"utf8"))
+client_socket.send(bytes(password,"utf8"))
 client_socket.close()

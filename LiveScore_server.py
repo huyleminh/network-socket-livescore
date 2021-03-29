@@ -16,11 +16,11 @@ print("Waiting...")
 connect, ip = server.accept()
 
 try:
-    print("Connected by ip: ", ip)
+    print("Connected by: ", ip)
     while True:
-        msg = server.recv(1024)
-        
-        print("Server receive: " + msg)
+        msg = connect.recv(1024)
+        if len(msg) > 0:
+            print("Server receive: " + msg.decode("utf8"))
 except KeyboardInterrupt:
     connect.close()
 finally:
