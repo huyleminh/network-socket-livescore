@@ -14,64 +14,48 @@ server = socket.socket(IPV4, TCP)
 server.bind((HOST, PORT))
 server.listen(5)
 
-clients = {}
-address = {}
+connections = []
+addresses = []
 
-def handleClients():
-    global server, address
-    i = 0
+def createClientThread():
+    global server, addresses
+    print("waiting new connection")
+
     while True:
-        print("waiting new connection")
-        clientConnect, clientAddress = server.accept()
-        i += 1
-        print("Connected by ", clientAddress)
-        address[clientConnect] = clientAddress
-        # try:
-        #     while True:
-        #         message = clientConnect.recv(1024).decode("utf8")
-        #         if message == "quit":
-        #             break
-        #         print("Client: " + message)
-
-        #         # Send back:
-        #         response = input("Server: ")
-        #         clientConnect.sendall(bytes(response, "utf8"))
-        # finally:
-        #     clientConnect.close()
-        #     print("Server closed")
-        #     break
-        if i < 4:
-            print("Start new thread")
-            a = Thread(target=clientThread, args=(clientConnect, i))
-            a.start()
-            print(threading.activeCount())
-            # print(threading.current_thread)
-        # finally:
-        else:
+        try:
+            connection, address = server.accept()
+            print("Connected by ", address)
+            addresses.append(address)
+            Thread(target=clientThread, args=(connection, address)).start()
+        except KeyboardInterrupt:
             break
 
-def clientThread(client, idClient):
-    global clients
-    clients[client] = "Client" + str(idClient)
+def clientThread(connection, address):
+    global connections
+    connections.append(connection)
+    connection.send(bytes("Welcome.", "utf8"))
     while True:
-        res = client.recv(1024)
-        if res != bytes("q", "utf8"):
-            for sock in clients:
-                sock.send(res)
+        res = connection.recv(1024).decode("utf8")
+        print("Client send: ", res, " from ", address)
+        if res != "q":
+            sendAllMessage(res, connections)
         else:
-            client.send(bytes("q", "utf8"))
-            client.close()
-            del clients[client]
-            for sock in clients:
-                sock.sendall(bytes("Client %s has left the chat" % idClient, "utf8"))
+            connection.send(bytes("q", "utf8"))
+            connection.close()
+            connections.remove(connection)
+
+            sendAllMessage(address[0] + " has left. ", connections)
             break
 
-
+def sendAllMessage(msg, connections):
+    for connection in connections:
+        if connection:
+            print("Can send")
+            connection.send(bytes(msg, "utf8"))
 
 if __name__ == "__main__":
     print("Server is listening: ")
-    serverThread = Thread(target=handleClients)
+    serverThread = Thread(target=createClientThread)
     serverThread.start()
     serverThread.join()
     server.close() # Close after thread died
-    # handleClients()
