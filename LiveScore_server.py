@@ -15,12 +15,32 @@ print("Waiting...")
 
 connect, ip = server.accept()
 
+username = ""
+password = ""
+
 try:
     print("Connected by: ", ip)
     while True:
+        i = 0
         msg = connect.recv(1024)
         if len(msg) > 0:
-            print("Server receive: " + msg.decode("utf8"))
+            if i == 0:
+                username = msg.decode("utf8")
+                i += 1
+            else:
+                password = msg.decode("utf8")
+                break
+                """f = open("../Account/account_list.txt", "rt")
+                flag = False
+                for x in f:
+                    if username == x:
+                        if password == f.readline():
+                            connect.send(bytes("Correct info", "utf8"))
+                            flag = True
+                if flag == False:
+                    connect.send(bytes("Incorrect info", "utf8"))"""
+            #print("Server receive: " + msg.decode("utf8"))
+        print(username + " " + password)
 except KeyboardInterrupt:
     connect.close()
 finally:

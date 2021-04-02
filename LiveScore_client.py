@@ -9,6 +9,15 @@ from threading import Thread
         except OSError:  # Possibly client has left the chat.
             break"""
 
+def receive():
+    while True:
+        try:
+            msg = client_socket.recv(1024).decode("utf8")
+            print (msg)
+        except OSError:  # Possibly client has left the chat.
+            break
+    client_socket.close()
+
 host = "127.0.0.1"
 port = 33000
 
@@ -24,4 +33,7 @@ password = input("Password: ")
 
 client_socket.send(bytes(username,"utf8"))
 client_socket.send(bytes(password,"utf8"))
-client_socket.close()
+
+receive_thread = Thread(target = receive)
+receive_thread.start()
+
