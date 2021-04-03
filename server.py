@@ -19,7 +19,7 @@ addresses = []
 
 def createClientThread():
     global server, addresses
-    print("waiting new connection")
+    print("Waiting new connection")
 
     while True:
         try:
@@ -54,7 +54,7 @@ def sendAllMessage(msg, connections):
             connection.send(bytes(msg, "utf8"))
 
 if __name__ == "__main__":
-    print("Server is listening: ")
+    print("Server is listening... ")
     serverThread = Thread(target=createClientThread)
     serverThread.start()
     serverThread.join()
