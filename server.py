@@ -40,7 +40,7 @@ def clientThread(connection, address):
         if res != "q":
             sendAllMessage(res, connections)
         else:
-            connection.send(bytes("q", "utf8"))
+            connection.send(bytes("qUiTqUiT", "utf8"))
             connection.close()
             connections.remove(connection)
 

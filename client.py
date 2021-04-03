@@ -34,9 +34,12 @@ def receive():
     while True:
         try:
             msg = client.recv(1024).decode("utf8")
-            print("Receive: " + msg)
-            if msg == "q":
-                break
+            if len(msg) > 0:
+                print("Receive: " + msg)
+                if msg == "qUiTqUiT":
+                    print('Client closed')
+                    client.close()
+                    break
         except OSError:
             break
 
@@ -53,9 +56,7 @@ def send():
     except:
         print('Client closed')
         client.close()
-    finally:
-        print('Client closed')
-        client.close()
+
 
 
 clientThread = Thread(target=receive)
