@@ -1,23 +1,23 @@
 import socket
 import threading
-
-IPV4 = socket.AF_INET
-TCP = socket.SOCK_STREAM
+import json
+import time
 
 Thread = threading.Thread
 
-HOST = ""
-PORT = 3000
+from utils.auth.Authentication import Authentication
+from shared.ConstSock import ConstSock
+from shared.Message import Login
 
 # Server socket
-server = socket.socket(IPV4, TCP)
-server.bind((HOST, PORT))
-server.listen(5)
+server = socket.socket(ConstSock.IP_ADDRESS, ConstSock.PROTOCOL)
+server.bind((ConstSock.HOST_IP, ConstSock.DEFAULT_PORT))
+server.listen(ConstSock.MAX_CLIENTS)
 
-connections = []
+userConnections = []
 addresses = []
 
-def createClientThread():
+def mainThreadServerSide():
     global server, addresses
     print("Waiting new connection")
 
@@ -26,36 +26,46 @@ def createClientThread():
             connection, address = server.accept()
             print("Connected by ", address)
             addresses.append(address)
-            Thread(target=clientThread, args=(connection, address)).start()
+
+            Thread(target=clientThreadServerSide, args=(connection, address)).start()
         except KeyboardInterrupt:
             break
 
-def clientThread(connection, address):
-    global connections
-    connections.append(connection)
-    connection.send(bytes("Welcome.", "utf8"))
+def clientThreadServerSide(connection, address):
+    global userConnections
+    userConnections.append(connection)
+
+    # Todo: Force client to login first
+    connection.send(bytes("Please login first: ", "utf8"))
+
+    while True:
+        userInfo = connection.recv(1024).decode("utf8")
+
+        auth = Authentication.checkLogin(json.loads(userInfo))
+
+        if auth == True:
+            connection.send(bytes(Login.SUCCESS, "utf8"))
+            break
+        else:
+            connection.send(bytes(Login.FAILED, "utf8"))
+
+    # Done: Login Success
     while True:
         res = connection.recv(1024).decode("utf8")
         print("Client send: ", res, " from ", address)
-        if res != "q":
-            sendAllMessage(res, connections)
-        else:
-            connection.send(bytes("q", "utf8"))
+
+        if res == "q":
+            connection.send(bytes("qUiTqUiT", "utf8"))
+
+            time.sleep(0.1)
+
             connection.close()
-            connections.remove(connection)
-
-            sendAllMessage(address[0] + " has left. ", connections)
+            userConnections.remove(connection)
             break
-
-def sendAllMessage(msg, connections):
-    for connection in connections:
-        if connection:
-            print("Can send")
-            connection.send(bytes(msg, "utf8"))
 
 if __name__ == "__main__":
     print("Server is listening... ")
-    serverThread = Thread(target=createClientThread)
+    serverThread = Thread(target=mainThreadServerSide)
     serverThread.start()
     serverThread.join()
     server.close() # Close after thread died
