@@ -33,7 +33,7 @@ def createClientThread():
 def clientThread(connection, address):
     global connections
     connections.append(connection)
-    connection.send(bytes("Welcome.", "utf8"))
+    connection.send(bytes("Welcome " + address[0], "utf8"))
     while True:
         res = connection.recv(1024).decode("utf8")
         print("Client send: ", res, " from ", address)

@@ -35,11 +35,11 @@ def receive():
         try:
             msg = client.recv(1024).decode("utf8")
             if len(msg) > 0:
-                print("Receive: " + msg)
                 if msg == "qUiTqUiT":
                     print('Client closed')
                     client.close()
                     break
+                print("Receive: " + msg)
         except OSError:
             break
 
