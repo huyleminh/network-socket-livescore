@@ -18,16 +18,24 @@ userConnections = []
 addresses = []
 
 def mainThreadServerSide():
+    n = 0
     global server, addresses
     print("Waiting new connection")
 
     while True:
         try:
-            connection, address = server.accept()
-            print("Connected by ", address)
-            addresses.append(address)
-
-            Thread(target=clientThreadServerSide, args=(connection, address)).start()
+            if n != 2:
+                connection, address = server.accept()
+                print("Connected by ", address)
+                addresses.append(address)
+                n = n + 1
+                Thread(target=clientThreadServerSide, args=(connection, address)).start()
+            else:
+                connection, address = server.accept()
+                print("Decline Connect Due To Too Many Connections")
+                connection.send(bytes("ExcessConnection", "utf8"))
+                time.sleep(0.1)
+                connection.close()
         except KeyboardInterrupt:
             break
 
