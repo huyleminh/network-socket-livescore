@@ -19,21 +19,22 @@ addresses = []
 
 def mainThreadServerSide():
     n = 0
+    max_connections = 2 #indicate maximum number of clients are allowed to connect
     global server, addresses
     print("Waiting new connection")
 
     while True:
         try:
-            if n != 2:
+            if n != max_connections:
                 connection, address = server.accept()
                 print("Connected by ", address)
                 addresses.append(address)
                 n = n + 1
                 Thread(target=clientThreadServerSide, args=(connection, address)).start()
-            else:
+            else: #handle more connections than max_connections case
                 connection, address = server.accept()
                 print("Decline Connect Due To Too Many Connections")
-                connection.send(bytes("ExcessConnection", "utf8"))
+                connection.send(bytes("ExcessConnection", "utf8")) #send msg to force client close connection immediately
                 time.sleep(0.1)
                 connection.close()
         except KeyboardInterrupt:
