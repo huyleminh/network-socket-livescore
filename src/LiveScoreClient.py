@@ -33,7 +33,7 @@ def receive():
             elif msg == Login.FAILED:
                 print("Unable to login, please try again.")
                 login = False
-            elif msg == "ExcessConnection":
+            elif msg == "ExcessConnection": #msg indicate that there are too many connection, force close
                 client.close()
                 break
 
