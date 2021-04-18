@@ -27,7 +27,7 @@ def receive():
         msg =  client.recv(1024).decode("utf8")
 
         if msg == Response.EXCESS_CONNECTION: #msg indicate that there are too many connection, force close
-            print("Connection denied, queue is overflow.")
+            print("Connection denied, queue is overflow. Please try again later.")
             client.close()
         elif msg == Response.SUCCESS_CONNECTION:
             connected = True
