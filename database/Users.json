@@ -1,10 +1,27 @@
 [
     {
+        "username": "SuperAdmin",
+        "password": "1",
+        "role": "super-admin"
+    },
+    {
+        "username": "Admin01",
+        "password": "1",
+        "role": "admin"
+    },
+    {
+        "username": "Admin02",
+        "password": "1",
+        "role": "admin"
+    },
+    {
         "username": "huy",
-        "password": "123"
+        "password": "1",
+        "role": "client"
     },
     {
         "username": "hung",
-        "password": "234"
+        "password": "1",
+        "role": "client"
     }
 ]
