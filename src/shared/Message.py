@@ -5,3 +5,13 @@ class Login:
 class SignIn:
     SUCCESS = "signin-success"
     FAILED = "signin-failed"
+
+class Response:
+    SUCCESS_CONNECTION = "ghukfwesgkrfhjwebfh"
+    EXCESS_CONNECTION = "hsaWSAHDnFjASdbnNf"
+    CLOSE_CONNECTION = "NSjfhbasngawtnasS"
+
+    # AUTHENTICATION_REQUEST = "uekolwgbhdfJWSKLRF"
+
+class Request:
+    INTERRUPT = "GUhfiufHhjuo"

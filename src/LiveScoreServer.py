@@ -7,7 +7,7 @@ Thread = threading.Thread
 
 from utils.auth.Authentication import Authentication
 from shared.ConstSock import ConstSock
-from shared.Message import Login
+from shared.Message import Login, Response
 
 # Server socket
 server = socket.socket(ConstSock.IP_ADDRESS, ConstSock.PROTOCOL)
@@ -19,24 +19,30 @@ addresses = []
 
 def mainThreadServerSide():
     n = 0
-    max_connections = 2 #indicate maximum number of clients are allowed to connect
     global server, addresses
     print("Waiting new connection")
 
     while True:
         try:
-            if n != max_connections:
+            if n != ConstSock.MAX_CLIENTS:
                 connection, address = server.accept()
+
+                # Send success response to client
                 print("Connected by ", address)
+                connection.send(bytes(Response.SUCCESS_CONNECTION, "utf8"))
+
                 addresses.append(address)
                 n = n + 1
+
                 Thread(target=clientThreadServerSide, args=(connection, address)).start()
             else: #handle more connections than max_connections case
                 connection, address = server.accept()
-                print("Decline Connect Due To Too Many Connections")
-                connection.send(bytes("ExcessConnection", "utf8")) #send msg to force client close connection immediately
+                print("Decline new connection due to too many connections")
+
+                connection.send(bytes(Response.EXCESS_CONNECTION, "utf8")) #send msg to force client close connection immediately
                 time.sleep(0.1)
                 connection.close()
+
         except KeyboardInterrupt:
             break
 
@@ -44,8 +50,8 @@ def clientThreadServerSide(connection, address):
     global userConnections
     userConnections.append(connection)
 
-    # Todo: Force client to login first
-    connection.send(bytes("Please login first: ", "utf8"))
+    # # Todo: Force client to login first
+    # connection.send(bytes(Response.AUTHENTICATION_REQUEST, "utf8"))
 
     while True:
         userInfo = connection.recv(1024).decode("utf8")
@@ -64,12 +70,13 @@ def clientThreadServerSide(connection, address):
         print("Client send: ", res, " from ", address)
 
         if res == "q":
-            connection.send(bytes("qUiTqUiT", "utf8"))
+            connection.send(bytes("NSjfhbasngawtnasS", "utf8"))
 
             time.sleep(0.1)
 
             connection.close()
             userConnections.remove(connection)
+            addresses.remove(address)
             break
 
 if __name__ == "__main__":
