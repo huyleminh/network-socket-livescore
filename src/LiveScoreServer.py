@@ -75,14 +75,22 @@ def clientThreadServerSide(connection, address):
 
     # Done: Login Success
     while True:
-        res = connection.recv(1024).decode("utf8")
-        print("Client send: ", res, " from ", address)
+        try:
+            res = connection.recv(1024).decode("utf8")
+            print("Client send: ", res, " from ", address)
 
-        if res == "q":
-            connection.send(bytes("NSjfhbasngawtnasS", "utf8"))
+            if res == "q":
+                connection.send(bytes("NSjfhbasngawtnasS", "utf8"))
 
-            time.sleep(0.1)
+                time.sleep(0.1)
 
+                connection.close()
+                userConnections.remove(connection)
+                addresses.remove(address)
+                n = n - 1
+                break
+        except: #Client suddenly drops connection
+            print("Client ", address," error detected. Auto close connection.")
             connection.close()
             userConnections.remove(connection)
             addresses.remove(address)

@@ -11,7 +11,7 @@ TCP = socket.SOCK_STREAM
 Thread = threading.Thread
 
 HOST = "127.0.0.1"
-PORT = 3000
+PORT = 30000
 
 # Client socket
 client = socket.socket(IPV4, TCP)
@@ -57,7 +57,8 @@ def receive():
 
         client.close()
     except:
-        print("Receive error.")
+        print("Server error detected. Press enter to close connection.")
+        connected = False
         client.close()
 
 def send():
@@ -80,11 +81,15 @@ def send():
             if len(requestMsg) == 0:
                 continue
 
+            if connected == False:
+                break
+
             client.send(bytes(requestMsg, "utf8"))
 
             if requestMsg == "q":
                 break
         except:
+            print("Send error.")
             client.close()
 
 
