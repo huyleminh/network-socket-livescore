@@ -18,3 +18,13 @@ class Authentication:
             if userInfo == user:
                 return True
         return False
+    
+    @staticmethod
+    def registerNew(userInfo=None):
+        if not userInfo:
+            return False
+
+        users = DBHandler.readAllUsers()
+        users.append(userInfo)
+        DBHandler.writeAllUsers(users)
+        return True

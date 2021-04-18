@@ -7,7 +7,7 @@ Thread = threading.Thread
 
 from utils.auth.Authentication import Authentication
 from shared.ConstSock import ConstSock
-from shared.Message import Login, Response
+from shared.Message import Login, Response, Request
 
 # Server socket
 server = socket.socket(ConstSock.IP_ADDRESS, ConstSock.PROTOCOL)
@@ -59,19 +59,31 @@ def clientThreadServerSide(connection, address):
     global userConnections
     userConnections.append(connection)
     global n
-    # # Todo: Force client to login first
+    # # Todo: Force client to login or register first
     # connection.send(bytes(Response.AUTHENTICATION_REQUEST, "utf8"))
 
     while True:
-        userInfo = connection.recv(1024).decode("utf8")
+        userInfo = connection.recv(1024).decode("utf8") #Listen for mode request from client
 
-        auth = Authentication.checkLogin(json.loads(userInfo))
+        if userInfo == Request.LOGIN_MODE: #Client request login mode
+            userInfo = connection.recv(1024).decode("utf8")
+            auth = Authentication.checkLogin(json.loads(userInfo))
 
-        if auth == True:
-            connection.send(bytes(Login.SUCCESS, "utf8"))
-            break
-        else:
-            connection.send(bytes(Login.FAILED, "utf8"))
+            if auth == True:
+                connection.send(bytes(Login.SUCCESS, "utf8"))
+                break
+            else:
+                connection.send(bytes(Login.FAILED, "utf8"))
+        elif userInfo == Request.REGISTER_MODE: #Client request register mode
+            userInfo = connection.recv(1024).decode("utf8")
+            auth = Authentication.checkLogin(json.loads(userInfo))
+
+            if auth == True:
+                connection.send(bytes(Login.FAILED, "utf8"))
+            else:
+                Authentication.registerNew(json.loads(userInfo))
+                connection.send(bytes(Login.SUCCESS, "utf8"))
+                break
 
     # Done: Login Success
     while True:
@@ -80,7 +92,7 @@ def clientThreadServerSide(connection, address):
             print("Client send: ", res, " from ", address)
 
             if res == "q":
-                connection.send(bytes("NSjfhbasngawtnasS", "utf8"))
+                connection.send(bytes(Response.CLOSE_CONNECTION, "utf8"))
 
                 time.sleep(0.1)
 
