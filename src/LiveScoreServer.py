@@ -16,12 +16,12 @@ server.listen(ConstSock.MAX_CLIENTS)
 
 userConnections = []
 addresses = []
+n = 0
 
 def mainThreadServerSide():
-    n = 0
     global server, addresses
     print("Waiting new connection")
-
+    global n
     while True:
         try:
             if n != ConstSock.MAX_CLIENTS:
@@ -37,11 +37,20 @@ def mainThreadServerSide():
                 Thread(target=clientThreadServerSide, args=(connection, address)).start()
             else: #handle more connections than max_connections case
                 connection, address = server.accept()
-                print("Decline new connection due to too many connections")
+                if n != ConstSock.MAX_CLIENTS:
+                    # Send success response to client
+                    print("Connected by ", address)
+                    connection.send(bytes(Response.SUCCESS_CONNECTION, "utf8"))
 
-                connection.send(bytes(Response.EXCESS_CONNECTION, "utf8")) #send msg to force client close connection immediately
-                time.sleep(0.1)
-                connection.close()
+                    addresses.append(address)
+                    n = n + 1
+
+                    Thread(target=clientThreadServerSide, args=(connection, address)).start()
+                else:
+                    print("Decline new connection due to too many connections")
+                    connection.send(bytes(Response.EXCESS_CONNECTION, "utf8")) #send msg to force client close connection immediately
+                    time.sleep(0.1)
+                    connection.close()
 
         except KeyboardInterrupt:
             break
@@ -49,7 +58,7 @@ def mainThreadServerSide():
 def clientThreadServerSide(connection, address):
     global userConnections
     userConnections.append(connection)
-
+    global n
     # # Todo: Force client to login first
     # connection.send(bytes(Response.AUTHENTICATION_REQUEST, "utf8"))
 
@@ -77,6 +86,7 @@ def clientThreadServerSide(connection, address):
             connection.close()
             userConnections.remove(connection)
             addresses.remove(address)
+            n = n - 1
             break
 
 if __name__ == "__main__":

@@ -7,4 +7,4 @@ class ConstSock:
     DEFAULT_PORT = 3000
     HOST_IP = "127.0.0.1" # Loop back
 
-    MAX_CLIENTS = 10
+    MAX_CLIENTS = 2
