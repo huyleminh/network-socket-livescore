@@ -16,7 +16,7 @@ server.listen(ConstSock.MAX_CLIENTS)
 
 userConnections = []
 addresses = []
-n = 0
+n = 0 #client counter
 
 def mainThreadServerSide():
     global server, addresses
