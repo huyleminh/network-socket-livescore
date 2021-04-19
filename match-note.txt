@@ -1,0 +1,19 @@
+Một match sẽ bao gồm:
+    - idMatch
+    - home: (tạm thời là tên đội bóng, sau này sẽ là id đội bóng để mở rộng)
+    - away:
+    - status: FT, HT, phút bao nhiêu, postp
+    - homeScore:
+    - awayScore:
+    - details: idDetail
+
+Một detail gồm:
+    - idDetail
+    - idMatch
+    - events: là một array các events
+        một phần tử event bao gồm:
+            - type: goal, ownGoal, red card, yellow card
+            - assist: mặc định là null, nếu như sự kiện là goal thì set tên cầu thủ assist
+            - team: đội sở hữu sự kiện (home, away)
+            - time: thời gian diễn ra
+            - player: cầu thủ gây ra sự kiện
