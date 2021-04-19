@@ -4,6 +4,15 @@
 
 * If you do not know what is python, please visit **[python](https://www.python.org/)**
 
+## Usage:
+
+* You have to run this command first to install packets:
+    ```
+    pip install shortuuid
+    ```
+
+* To run the progam, please follow this guideline:
+
 ## Contributors:
 
 * [Le Minh Huy](https://github.com/huyleminh)

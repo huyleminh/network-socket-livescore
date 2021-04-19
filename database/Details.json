@@ -1,0 +1,461 @@
+[
+    {
+        "idDetail": "ETnhUihNso",
+        "idMatch": "4jo8n3sj7Q",
+        "events": [
+            {
+                "type": "goal-denied",
+                "assist": null,
+                "team": "home",
+                "time": "40",
+                "player": "Daniel Ceballos"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "50",
+                "player": "Joachim Andersen"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "away",
+                "time": "59",
+                "player": "Josh Maja"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "61",
+                "player": "Bobby Reid"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "89",
+                "player": "Alphonse Areola"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "home",
+                "time": "90 + 7",
+                "player": "Edward Nketiah"
+            }
+        ]
+    },
+    {
+        "idDetail": "4bL8gSCyhd",
+        "idMatch": "3DnSsZHAZU",
+        "events": [
+            {
+                "type": "goal",
+                "assist": "Teemu Pukki",
+                "team": "home",
+                "time": "5",
+                "player": "Emiliano Buendia"
+            },
+            {
+                "type": "red-card",
+                "assist": null,
+                "team": "home",
+                "time": "17",
+                "player": "Dimitrios Giannoulis"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "35",
+                "player": "Jefferson Lerma"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "away",
+                "time": "50",
+                "player": "Sam Surridge"
+            },
+            {
+                "type": "yello-card",
+                "assist": null,
+                "team": "home",
+                "time": "52",
+                "player": "Tim Krul"
+            },
+            {
+                "type": "goal",
+                "assist": "Steve Cook",
+                "team": "away",
+                "time": "57",
+                "player": "Arnaut Danjuma"
+            },
+            {
+                "type": "yello-card",
+                "assist": null,
+                "team": "home",
+                "time": "58",
+                "player": "Kenny McLean"
+            },
+            {
+                "type": "yello-card",
+                "assist": null,
+                "team": "away",
+                "time": "59",
+                "player": "Adam Smith"
+            },
+            {
+                "type": "yello-card",
+                "assist": null,
+                "team": "away",
+                "time": "70",
+                "player": "David Brooks"
+            },
+            {
+                "type": "goal",
+                "assist": "Arnaut Danjuma",
+                "team": "away",
+                "time": "76",
+                "player": "Lloyd Kelly"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "90 + 1",
+                "player": "Oliver Skipp"
+            }
+        ]
+    },
+    {
+        "idDetail": "AutquRQso3",
+        "idMatch": "KjDVbyVmQN",
+        "events": [
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "36'",
+                "player": "Rhian Brewster"
+            },
+            {
+                "type": "goal",
+                "assist": "Adama Traore",
+                "team": "home",
+                "time": "60'",
+                "player": "Willian Jose"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "71'",
+                "player": "Daniel Podence"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "82'",
+                "player": "Enda Stevens"
+            }
+        ]
+    },
+    {
+        "idDetail": "KGXwjeSmqR",
+        "idMatch": "hKLJRJiBnu",
+        "events": [
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "57'",
+                "player": "Michael Ihiekwe"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "67'",
+                "player": "Richard Wood"
+            },
+            {
+                "type": "goal",
+                "assist": "Kristian Pedersen",
+                "team": "away",
+                "time": "88'",
+                "player": "Harlee Dean"
+            }
+        ]
+    },
+    {
+        "idDetail": "JCJ2UsdKu2",
+        "idMatch": "69sPTDiibi",
+        "events": [
+            {
+                "type": "goal",
+                "assist": "Maxime Biamou",
+                "team": "home",
+                "time": "9'",
+                "player": "Dominic Hyam"
+            },
+            {
+                "type": "yello-card",
+                "assist": null,
+                "team": "away",
+                "time": "85'",
+                "player": "Callum Styles"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "home",
+                "time": "90 + 1'",
+                "player": "Matt Godden"
+            }
+        ]
+    },
+    {
+        "idDetail": "8hmcTjDeqq",
+        "idMatch": "pvG4gnRc2A",
+        "events": [
+            {
+                "type": "yello-card",
+                "assist": null,
+                "team": "home",
+                "time": "26'",
+                "player": "Aaron Wan-Bissaka"
+            },
+            {
+                "type": "goal",
+                "assist": "Marcus Rashford",
+                "team": "home",
+                "time": "48'",
+                "player": "Mason Greenwood"
+            },
+            {
+                "type": "goal",
+                "assist": "Ashley Westwood",
+                "team": "away",
+                "time": "50'",
+                "player": "James Tarkowski"
+            },
+            {
+                "type": "yello-card",
+                "assist": null,
+                "team": "away",
+                "time": "57'",
+                "player": "Jack Cork"
+            },
+            {
+                "type": "goal",
+                "assist": "Paul Pogba",
+                "team": "home",
+                "time": "84'",
+                "player": "Mason Greenwood"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "89'",
+                "player": "James Tarkowski"
+            },
+            {
+                "type": "goal",
+                "assist": "Donny van de Beek",
+                "team": "home",
+                "time": "90 + 3'",
+                "player": "Edinson Cavani"
+            }
+        ]
+    },
+    {
+        "idDetail": "HikdiGYLhZ",
+        "idMatch": "D3kZ34FaAj",
+        "events": [
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "8'",
+                "player": "Lucas Boye"
+            },
+            {
+                "type": "goal",
+                "assist": "Manuel Sanchez",
+                "team": "home",
+                "time": "38'",
+                "player": "Enrique Barja"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "45 + 1'",
+                "player": "Nacho Vidal"
+            },
+            {
+                "type": "",
+                "assist": null,
+                "team": "home",
+                "time": "48'",
+                "player": "Manuel Sanchez"
+            },
+            {
+                "type": "OG",
+                "assist": null,
+                "team": "home",
+                "time": "68'",
+                "player": "Diego Gonzalez"
+            }
+        ]
+    },
+    {
+        "idDetail": "HHqREJiCar",
+        "idMatch": "rPnL7jSzJC",
+        "events": [
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "home",
+                "time": "5'",
+                "player": "Carlos Fernandez"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "away",
+                "time": "22'",
+                "player": "Fernando"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "away",
+                "time": "24'",
+                "player": "Youssef En-Nesyri"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "51'",
+                "player": "Diego Carlos"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "59'",
+                "player": "Carlos Fernandez"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "63'",
+                "player": "Alexander Isak"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "71'",
+                "player": "Joan Jordan"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "74'",
+                "player": "Ander Barrenetxea"
+            }
+        ]
+    },
+    {
+        "idDetail": "9cmGQjTNmj",
+        "idMatch": "KG7tyDTegF",
+        "events": [
+            {
+                "type": "goal",
+                "assist": "Hector Herrera",
+                "team": "home",
+                "time": "42'",
+                "player": "Angel Correa"
+            },
+            {
+                "type": "goal",
+                "assist": "Yannick Carrasco",
+                "team": "home",
+                "time": "44'",
+                "player": "Angel Correa"
+            },
+            {
+                "type": "goal",
+                "assist": "Saul Niguez",
+                "team": "home",
+                "time": "49'",
+                "player": "Yannick Carrasco"
+            },
+            {
+                "type": "goal",
+                "assist": "Angel Correa",
+                "team": "home",
+                "time": "53'",
+                "player": "Marcos Llorente"
+            },
+            {
+                "type": "goal",
+                "assist": "Yannick Carrasco",
+                "team": "home",
+                "time": "68'",
+                "player": "Marcos Llorente"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "88'",
+                "player": "Paulo Oliveira"
+            }
+        ]
+    },
+    {
+        "idDetail": "8TVUMVp7EM",
+        "idMatch": "9mAK4Fs5z8",
+        "events": [
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "30'",
+                "player": "Denis Vavro"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "60'",
+                "player": "Rodrigo Andres Battaglia"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "84'",
+                "player": "Daniel Escriche"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "home",
+                "time": "85'",
+                "player": "Rodrigo Andres Battaglia"
+            }
+        ]
+    }
+]

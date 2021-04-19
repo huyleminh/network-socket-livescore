@@ -15,6 +15,27 @@ class Authentication:
 
         users = DBHandler.readAllUsers()
         for user in users:
-            if userInfo == user:
+            if userInfo["username"] == user["username"] and userInfo["password"] == user["password"]:
                 return True
         return False
+
+    @staticmethod
+    def checkRegister(userInfo=None):
+        if not userInfo:
+            return False
+
+        users = DBHandler.readAllUsers()
+        for user in users:
+            if userInfo["username"] == user["username"]:
+                return True
+        return False
+    
+    @staticmethod
+    def registerNew(userInfo=None):
+        if not userInfo:
+            return False
+
+        users = DBHandler.readAllUsers()
+        users.append(userInfo)
+        DBHandler.writeAllUsers(users)
+        return True
