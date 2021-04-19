@@ -1,5 +1,13 @@
 import json
 import shortuuid as shortId
+import sys
+from pathlib import Path
+
+pathfile = Path(__file__).resolve()
+dbRoot = pathfile.parents[1]
+sys.path.append(str(dbRoot))
+
+from details.DBDetailsHandler import DBDetailsHandler
 
 class DBMatchesHandler:
     @staticmethod
@@ -60,6 +68,10 @@ class DBMatchesHandler:
             "awayScore": matchInfo["awayScore"],
             "details": shortId.random(length=10)
         }
+
+        # Create new details for this match:
+        newDetail = { "idDetails": newMatch["details"], "idMatch": newMatch["idMatch"] }
+
 
         # Insert to database
         res = DBMatchesHandler.getAllMatches()
