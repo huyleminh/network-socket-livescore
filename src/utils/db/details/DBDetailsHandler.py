@@ -6,7 +6,7 @@ class DBDetailsHandler:
     def getAllDetails():
         try:
             f= open("database/Details.json")
-            details = fread()
+            details = f.read()
             f.close()
         except:
             return { "status": 500 }
