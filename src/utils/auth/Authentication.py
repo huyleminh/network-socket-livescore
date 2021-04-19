@@ -15,7 +15,7 @@ class Authentication:
 
         users = DBHandler.readAllUsers()
         for user in users:
-            if userInfo == user:
+            if userInfo["username"] == user["username"] and userInfo["password"] == user["password"]:
                 return True
         return False
     

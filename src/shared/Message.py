@@ -17,3 +17,5 @@ class Request:
     INTERRUPT = "GUhfiufHhjuo"
     LOGIN_MODE = "HsadnFHasDn"
     REGISTER_MODE = "nJsadbnFASjy"
+    VIEW_ALL_MATCHES = "SdndhasnfgSAbc"
+    CLOSE_CONNECTION = "NjsddnasDnsYSh"

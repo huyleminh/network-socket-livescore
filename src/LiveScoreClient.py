@@ -63,10 +63,9 @@ def receive():
             # Listen response from server
             msg = client.recv(1024).decode("utf8")
             if len(msg) > 0:
-                print("Receive: " + msg)
-
                 if msg == Response.CLOSE_CONNECTION:
                     break
+                print("Receive: " + msg)
 
         client.close()
     except:
@@ -96,7 +95,7 @@ def send():
                     username = input("Username: ")
                     password = input("Password: ")
 
-                    userInfo = { "username": username, "password": password }
+                    userInfo = { "username": username, "password": password, "role": "client"}
                     client.send(bytes(json.dumps(userInfo), "utf8"))
                     time.sleep(0.1)
             except:
@@ -104,16 +103,20 @@ def send():
                 client.close()
 
         try:
-            requestMsg = input("Request: ")
+            requestMsg = input("Enter 0 to view all matches\nEnter q to exit")
+            #requestMsg = input("Request: ")
             if len(requestMsg) == 0:
                 continue
 
             if connected == False:
                 break
 
-            client.send(bytes(requestMsg, "utf8"))
+            if requestMsg == "0":
+                client.send(bytes(Request.VIEW_ALL_MATCHES, "utf8"))
+            #client.send(bytes(requestMsg, "utf8"))
 
             if requestMsg == "q":
+                client.send(bytes(Request.CLOSE_CONNECTION, "utf8"))
                 break
         except:
             print("Send error.")
