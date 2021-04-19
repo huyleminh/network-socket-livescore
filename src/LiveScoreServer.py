@@ -8,6 +8,7 @@ Thread = threading.Thread
 from utils.auth.Authentication import Authentication
 from shared.ConstSock import ConstSock
 from shared.Message import Login, Response, Request
+from utils.db.DBHandler import DBHandler
 
 # Server socket
 server = socket.socket(ConstSock.IP_ADDRESS, ConstSock.PROTOCOL)
@@ -61,37 +62,37 @@ def clientThreadServerSide(connection, address):
     global n
     # # Todo: Force client to login or register first
     # connection.send(bytes(Response.AUTHENTICATION_REQUEST, "utf8"))
+    try:
+        while True:
+            userInfo = connection.recv(1024).decode("utf8") #Listen for mode request from client
 
-    while True:
-        userInfo = connection.recv(1024).decode("utf8") #Listen for mode request from client
+            if userInfo == Request.LOGIN_MODE: #Client request login mode
+                userInfo = connection.recv(1024).decode("utf8")
+                auth = Authentication.checkLogin(json.loads(userInfo))
 
-        if userInfo == Request.LOGIN_MODE: #Client request login mode
-            userInfo = connection.recv(1024).decode("utf8")
-            auth = Authentication.checkLogin(json.loads(userInfo))
+                if auth == True:
+                    connection.send(bytes(Login.SUCCESS, "utf8"))
+                    break
+                else:
+                    connection.send(bytes(Login.FAILED, "utf8"))
+            elif userInfo == Request.REGISTER_MODE: #Client request register mode
+                userInfo = connection.recv(1024).decode("utf8")
+                auth = Authentication.checkRegister(json.loads(userInfo))
 
-            if auth == True:
-                connection.send(bytes(Login.SUCCESS, "utf8"))
-                break
-            else:
-                connection.send(bytes(Login.FAILED, "utf8"))
-        elif userInfo == Request.REGISTER_MODE: #Client request register mode
-            userInfo = connection.recv(1024).decode("utf8")
-            auth = Authentication.checkLogin(json.loads(userInfo))
+                if auth == True:
+                    connection.send(bytes(Login.FAILED, "utf8"))
+                else:
+                    Authentication.registerNew(json.loads(userInfo))
+                    connection.send(bytes(Login.SUCCESS, "utf8"))
+                    break
+            
 
-            if auth == True:
-                connection.send(bytes(Login.FAILED, "utf8"))
-            else:
-                Authentication.registerNew(json.loads(userInfo))
-                connection.send(bytes(Login.SUCCESS, "utf8"))
-                break
-
-    # Done: Login Success
-    while True:
-        try:
+        # Done: Login Success
+        while True:
             res = connection.recv(1024).decode("utf8")
             print("Client send: ", res, " from ", address)
 
-            if res == "q":
+            if res == Request.CLOSE_CONNECTION:
                 connection.send(bytes(Response.CLOSE_CONNECTION, "utf8"))
 
                 time.sleep(0.1)
@@ -101,13 +102,17 @@ def clientThreadServerSide(connection, address):
                 addresses.remove(address)
                 n = n - 1
                 break
-        except: #Client suddenly drops connection
-            print("Client ", address," error detected. Auto close connection.")
-            connection.close()
-            userConnections.remove(connection)
-            addresses.remove(address)
-            n = n - 1
-            break
+
+            if res == Request.VIEW_ALL_MATCHES:
+                matches = DBHandler.readAllMatches()
+                connection.send(bytes(json.dumps(matches),"utf8"))
+
+    except: #Client suddenly drops connection
+        print("Client ", address," error detected. Auto close connection.")
+        connection.close()
+        userConnections.remove(connection)
+        addresses.remove(address)
+        n = n - 1
 
 if __name__ == "__main__":
     print("Server is listening... ")
