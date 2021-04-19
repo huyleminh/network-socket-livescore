@@ -3,7 +3,7 @@ import threading
 import json
 import time
 
-from shared.Message import Login, Response
+from shared.Message import Login, Response, Request
 
 IPV4 = socket.AF_INET
 TCP = socket.SOCK_STREAM
@@ -11,7 +11,7 @@ TCP = socket.SOCK_STREAM
 Thread = threading.Thread
 
 HOST = "127.0.0.1"
-PORT = 3000
+PORT = 30000
 
 # Client socket
 client = socket.socket(IPV4, TCP)
@@ -19,6 +19,8 @@ client.connect((HOST, PORT))
 
 login = False
 connected = False
+mode = 1 #Login mode(1) or Register mode(2)
+#Please change mode in source code while waiting for UI
 
 def receive():
     global login, connected
@@ -34,18 +36,29 @@ def receive():
             print("Connect successfully.")
 
         # Done: connect sucessfully
-        while connected ==True:
+        while connected == True:
             # ? Try to login
             while login == False:
-                msg = client.recv(1024).decode("utf8")
+                if mode == 1:
+                    msg = client.recv(1024).decode("utf8")
 
-                if msg == Login.SUCCESS:
-                    print("Login successfully.")
-                    login = True
-                    break
-                elif msg == Login.FAILED:
-                    print("Unable to login, please try again.")
-                    login = False
+                    if msg == Login.SUCCESS:
+                        print("Login successfully.")
+                        login = True
+                        break
+                    elif msg == Login.FAILED:
+                        print("Unable to login, please try again.")
+                        login = False
+                elif mode == 2:
+                    msg = client.recv(1024).decode("utf8")
+
+                    if msg == Login.SUCCESS:
+                        print("Register successfully.")
+                        login = True
+                        break
+                    elif msg == Login.FAILED:
+                        print("Account existed.")
+                        login = False
 
             # Listen response from server
             msg = client.recv(1024).decode("utf8")
@@ -57,22 +70,37 @@ def receive():
 
         client.close()
     except:
-        print("Receive error.")
+        print("Server error detected. Press enter to close connection.")
+        connected = False
         client.close()
 
 def send():
-    global login, connected
+    global login, connected, mode
     while connected == True:
         # ? Try to login
         while login == False:
             try:
-                username = input("Username: ")
-                password = input("Password: ")
+                if mode == 1: #Login mode
+                    client.send(bytes(Request.LOGIN_MODE, "utf8"))
+                    print("Input Login Info")
+                    username = input("Username: ")
+                    password = input("Password: ")
 
-                userInfo = { "username": username, "password": password }
-                client.send(bytes(json.dumps(userInfo), "utf8"))
-                time.sleep(0.1)
+                    userInfo = { "username": username, "password": password }
+                    client.send(bytes(json.dumps(userInfo), "utf8"))
+                    time.sleep(0.1)
+                    
+                if mode == 2: #Register mode
+                    client.send(bytes(Request.REGISTER_MODE, "utf8"))
+                    print("Input Register Info")
+                    username = input("Username: ")
+                    password = input("Password: ")
+
+                    userInfo = { "username": username, "password": password }
+                    client.send(bytes(json.dumps(userInfo), "utf8"))
+                    time.sleep(0.1)
             except:
+                print("Login/Register error detected.")
                 client.close()
 
         try:
@@ -80,11 +108,15 @@ def send():
             if len(requestMsg) == 0:
                 continue
 
+            if connected == False:
+                break
+
             client.send(bytes(requestMsg, "utf8"))
 
             if requestMsg == "q":
                 break
         except:
+            print("Send error.")
             client.close()
 
 

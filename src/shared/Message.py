@@ -15,3 +15,5 @@ class Response:
 
 class Request:
     INTERRUPT = "GUhfiufHhjuo"
+    LOGIN_MODE = "HsadnFHasDn"
+    REGISTER_MODE = "nJsadbnFASjy"
