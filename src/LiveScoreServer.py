@@ -77,7 +77,7 @@ def clientThreadServerSide(connection, address):
                     connection.send(bytes(Login.FAILED, "utf8"))
             elif userInfo == Request.REGISTER_MODE: #Client request register mode
                 userInfo = connection.recv(1024).decode("utf8")
-                auth = Authentication.checkLogin(json.loads(userInfo))
+                auth = Authentication.checkRegister(json.loads(userInfo))
 
                 if auth == True:
                     connection.send(bytes(Login.FAILED, "utf8"))
