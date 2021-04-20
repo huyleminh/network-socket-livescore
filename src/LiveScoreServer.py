@@ -1,23 +1,20 @@
+import json
 import socket
 import threading
-import json
 import time
 
-Thread = threading.Thread
-
-from utils.auth.Authentication import Authentication
 from shared.ConstSock import ConstSock
-from shared.Message import Login, Response, Request
+from shared.Message import Login, Request, Response
+from utils.auth.Authentication import Authentication
 from utils.db.DBHandler import DBHandler
+from utils.db.matches.DBMatchesHandler import DBMatchesHandler
 
-# Server socket
+Thread = threading.Thread
 server = socket.socket(ConstSock.IP_ADDRESS, ConstSock.PROTOCOL)
 server.bind((ConstSock.HOST_IP, ConstSock.DEFAULT_PORT))
 server.listen(ConstSock.MAX_CLIENTS)
 
-userConnections = []
-addresses = []
-n = 0 #client counter
+userConnections = [], addresses = [], n = 0 #client counter
 
 def mainThreadServerSide():
     global server, addresses
@@ -65,6 +62,13 @@ def clientThreadServerSide(connection, address):
     try:
         while True:
             userInfo = connection.recv(1024).decode("utf8") #Listen for mode request from client
+            if userInfo == Request.LOGIN_MODE: #Client request login mode
+                connection.send(bytes(Request.LOGIN_MODE, "utf8"))
+            elif userInfo == Request.REGISTER_MODE:
+                connection.send(bytes(Request.REGISTER_MODE, "utf8"))
+            elif userInfo == Request.CLOSE_CONNECTION:
+                connection.send(bytes(Response.CLOSE_CONNECTION, "utf8"))
+                raise Exception("Client interrupted")
 
             if userInfo == Request.LOGIN_MODE: #Client request login mode
                 userInfo = connection.recv(1024).decode("utf8")
@@ -85,7 +89,6 @@ def clientThreadServerSide(connection, address):
                     Authentication.registerNew(json.loads(userInfo))
                     connection.send(bytes(Login.SUCCESS, "utf8"))
                     break
-            
 
         # Done: Login Success
         while True:
@@ -94,9 +97,7 @@ def clientThreadServerSide(connection, address):
 
             if res == Request.CLOSE_CONNECTION:
                 connection.send(bytes(Response.CLOSE_CONNECTION, "utf8"))
-
                 time.sleep(0.1)
-
                 connection.close()
                 userConnections.remove(connection)
                 addresses.remove(address)
@@ -104,7 +105,12 @@ def clientThreadServerSide(connection, address):
                 break
 
             if res == Request.VIEW_ALL_MATCHES:
-                matches = DBHandler.readAllMatches()
+                res = DBMatchesHandler.getAllMatches()
+                matches = []
+                if res["status"] == 500:
+                    matches = []
+                elif res["status"] == 200:
+                    matches = res["data"]
                 connection.send(bytes(json.dumps(matches),"utf8"))
 
     except: #Client suddenly drops connection
