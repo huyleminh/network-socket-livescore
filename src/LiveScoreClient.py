@@ -2,6 +2,7 @@ import socket
 import threading
 import json
 import time
+import tkinter
 
 from shared.Message import Login, Response, Request
 
@@ -73,6 +74,13 @@ def receive():
         connected = False
         client.close()
 
+def onCLick(client):
+    a = msg.get()
+    b = password.get()
+    print(a, b)
+    userInfo = { "username": username, "password": password }
+    client.send(bytes(json.dumps(userInfo), "utf8"))
+
 def send():
     global login, connected, mode
     while connected == True:
@@ -81,12 +89,17 @@ def send():
             try:
                 if mode == 1: #Login mode
                     client.send(bytes(Request.LOGIN_MODE, "utf8"))
-                    print("Input Login Info")
-                    username = input("Username: ")
-                    password = input("Password: ")
+                    text = tkinter.Entry(root, textvariable=msg)
+                    text1 = tkinter.Entry(root, textvariable=password)
+                    btn = tkinter.Button(root, command=onCLick(client), text="click")
+                    btn.pack()
+                    text.pack()
+                    # print("Input Login Info")
+                    # username = input("Username: ")
+                    # password = input("Password: ")
 
-                    userInfo = { "username": username, "password": password }
-                    client.send(bytes(json.dumps(userInfo), "utf8"))
+                    # userInfo = { "username": username, "password": password }
+                    # client.send(bytes(json.dumps(userInfo), "utf8"))
                     time.sleep(0.1)
                     
                 if mode == 2: #Register mode
@@ -122,8 +135,13 @@ def send():
             print("Send error.")
             client.close()
 
+root = tkinter.Tk()
 
+msg = tkinter.StringVar()
+password = tkinter.StringVar()
 clientThread = Thread(target=receive)
 clientThreadSend = Thread(target=send)
 clientThread.start()
 clientThreadSend.start()
+
+root.mainloop()
