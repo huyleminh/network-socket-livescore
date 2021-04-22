@@ -15,7 +15,7 @@ from shared.Message import Request
 
 def sendRegister(client, username, password, registerScreen):
     try:
-        client.send(bytes(Request.REGISTER_MODE, "utf8"))
+        client.send(bytes(json.dumps({ "code" : Request.REGISTER_MODE }), "utf8"))
     except:
         messagebox.showerror("Error", "Server interrupted")
         registerScreen.destroy()
@@ -34,7 +34,7 @@ def toggleRegister(mainScreen, client, layouts):
     registerScreen.title("Register screen")
     WIDTH = mainScreen.winfo_screenwidth()
     HEIGHT = mainScreen.winfo_screenheight()
-    PADDING_LEFT = math.ceil(WIDTH / 4)
+    PADDING_LEFT = math.ceil(WIDTH / 6)
     PADDING_TOP = math.ceil(HEIGHT / 8)
     registerScreen.geometry(str(math.ceil(WIDTH / 4)) + "x" + str(math.ceil(HEIGHT / 4)) + "+" + str(PADDING_LEFT) + "+" + str(PADDING_TOP))
 

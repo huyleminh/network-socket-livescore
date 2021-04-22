@@ -15,7 +15,7 @@ from shared.Message import Request
 
 def sendLogin(client, username, password, loginScreen):
     try:
-        client.send(bytes(Request.LOGIN_MODE, "utf8"))
+        client.send(bytes(json.dumps({ "code": Request.LOGIN_MODE }), "utf8"))
     except:
         messagebox.showerror("Error", "Server interrupted")
         loginScreen.destroy()
@@ -28,7 +28,7 @@ def sendLogin(client, username, password, loginScreen):
     username.set("")
     password.set("")
 
-def toggleLogin(mainScreen, client, layouts):
+def loginView(mainScreen, client, layouts):
     loginScreen = Toplevel(mainScreen)
     loginScreen.title("Login screen")
     WIDTH = mainScreen.winfo_screenwidth()

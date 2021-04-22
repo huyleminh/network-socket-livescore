@@ -1,5 +1,6 @@
 import math
 import sys
+import json
 from functools import partial
 from pathlib import Path
 from tkinter import *
@@ -12,12 +13,12 @@ from shared.Message import Request
 
 
 def viewAllMatch(client):
-    client.send(bytes(Request.VIEW_ALL_MATCHES, "utf8"))
+    client.send(bytes(json.dumps({ "code": Request.VIEW_ALL_MATCHES }), "utf8"))
 
 def backToMain(layouts):
     layouts["homeScreen"].destroy()
 
-def homeView(mainScreen, layouts, client):
+def homeView(mainScreen, layouts, client, role):
     homeScreen = Toplevel(mainScreen)
     WIDTH = homeScreen.winfo_screenwidth()
     HEIGHT = homeScreen.winfo_screenheight()
@@ -29,31 +30,43 @@ def homeView(mainScreen, layouts, client):
 
     searchID = StringVar()
 
-    Label(homeScreen, text="Welcome client", bg="#000000", height=2, font=(14), fg="#ff9017").grid(row=0, columnspan=2, sticky="we")
+    Label(homeScreen, text="Welcome " + role, bg="#000000", height=2, width=110, font=(14), fg="#ff9017", justify=CENTER).grid(row=0, columnspan=4, sticky="nwe")
 
     Button(
         homeScreen,
         text="View all match",
-        height=2, width=20,
+        height=2, width=30,
         bg="#212121",
-        fg="#bebebe",
+        fg="#ff9017",
         activebackground="#363636",
         activeforeground="#e8e3e3",
         command=partial(viewAllMatch, client)
-    ).grid(row=1, column=0, sticky="nw")
+    ).grid(row=1, column=0, sticky="w")
+
+    if role == "admin":
+        homeScreen.columnconfigure(1, weight=1)
+        Button(
+            homeScreen,
+            text="Add new match",
+            height=2,
+            width=30,
+            bg="#212121",
+            fg="#ff9017",
+            activebackground="#363636",
+            activeforeground="#e8e3e3",
+            # command=partial(backToMain, layouts)
+        ).grid(row=1, column=1, sticky="w")
+
     Button(
         homeScreen,
         text="Back",
         height=2,
-        width=20,
+        width=30,
         bg="#212121",
-        fg="#bebebe",
+        fg="#ff9017",
         activebackground="#363636",
         activeforeground="#e8e3e3",
         command=partial(backToMain, layouts)
-    ).grid(row=1, column=1, sticky="nw")
-
-    homeScreen.columnconfigure(1, weight=1)
-    homeScreen.rowconfigure(3, weight=1)
+    ).grid(row=1, column=2, sticky="w")
 
     homeScreen.mainloop()
