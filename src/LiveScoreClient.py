@@ -10,23 +10,28 @@ from tkinter import messagebox
 
 from shared.ConstSock import ConstSock
 from shared.Message import Login, Request, Response
+from views.HomeView import *
 from views.Login import *
 from views.Logout import *
+from views.MatchView import *
 from views.Register import *
 
 Thread = threading.Thread
 client = socket.socket(ConstSock.IP_ADDRESS, ConstSock.PROTOCOL)
 client.connect((ConstSock.HOST_IP, ConstSock.DEFAULT_PORT))
 
-login = False, connected = False, denny = False, layouts = {}
+login = False
+connected = False
+denny = False
+layouts = {}
 
 def receive():
     global login, connected, denny
     try:
         msg =  client.recv(1024).decode("utf8")
         if msg == Response.EXCESS_CONNECTION: #msg indicate that there are too many connection, force close
-            print("Connection denied, queue is overflow. Please try again later.")
             denny = True
+            messagebox.showerror("Error detected", "Connection denied, queue is overflow. Please try again later.")
         elif msg == Response.SUCCESS_CONNECTION:
             connected = True
             print("Connect successfully.")
@@ -71,11 +76,10 @@ def receive():
                 if msg == Response.CLOSE_CONNECTION:
                     break
                 else:
-                    print(json.loads(msg))
+                    allMatchView(json.loads(msg))
 
         client.close()
     except Exception:
-        print("Client interrupt.")
         connected = False
         client.close()
     except:
@@ -90,43 +94,27 @@ def toggleHome():
     if login == False:
         messagebox.showwarning("Alert", "You have to login first")
         return
-
-    homeScreen = Toplevel(mainScreen)
-    WIDTH = homeScreen.winfo_screenwidth()
-    HEIGHT = homeScreen.winfo_screenheight()
-    PADDING_LEFT = math.ceil(WIDTH / 4)
-    PADDING_TOP = math.ceil(HEIGHT / 8)
-    homeScreen.geometry(str(math.ceil(WIDTH / 2)) + "x" + str(math.ceil(HEIGHT / 2)) + "+" + str(PADDING_LEFT) + "+" + str(PADDING_TOP))
-    searchID = StringVar()
-
-    Label(homeScreen, text="Welcome client", bg="#bd46bf", height=2, font=(14), fg="#FFFFFF").grid(row=0, columnspan=2, sticky="we")
-
-    viewAllBtn = Button(homeScreen, text="View all match", height=1, width=20, command=viewAllMatch).grid(row=1, column=0, sticky="nw")
-    viewByIDBtn = Button(homeScreen, text="View match by ID", height=1, width=20, bg="#46a049", command=partial(viewMatchByID)).grid(row=2, column=0, sticky="nw")
-    searchEntry = Entry(homeScreen, textvariable=searchID).grid(sticky="we", row=2, column=1)
-
-    homeScreen.columnconfigure(1, weight=1)
-    homeScreen.rowconfigure(4, weight=1)
-
-    homeScreen.mainloop()
+    else:
+        homeView(mainScreen, layouts, client)
 
 def toggleLogout():
     if not login:
         messagebox.showwarning("Alert", "You are not logged in")
-    logoutProcess(client, layouts)
+    else:
+        logoutProcess(client, layouts)
 
 def onCloseWindow():
-    client.send(bytes(Request.CLOSE_CONNECTION, "utf8"))
+    try:
+        client.send(bytes(Request.CLOSE_CONNECTION, "utf8"))
+    except:
+        messagebox.showerror("Error", "Server interrupted")
+        layouts["mainScreen"].destroy()
+        return
     layouts["mainScreen"].destroy()
-
-def viewAllMatch():
-    client.send(bytes(Request.VIEW_ALL_MATCHES, "utf8"))
-
-def viewMatchByID():
-    pass
 
 mainScreen = Tk()
 mainScreen.title("Main screen")
+mainScreen.configure(bg="#000000")
 
 layouts["mainScreen"] = mainScreen
 
@@ -136,12 +124,14 @@ PADDING_LEFT = math.ceil(WIDTH / 4)
 PADDING_TOP = math.ceil(HEIGHT / 8)
 mainScreen.geometry(str(math.ceil(WIDTH / 2)) + "x" + str(math.ceil(HEIGHT / 2)) + "+" + str(PADDING_LEFT) + "+" + str(PADDING_TOP))
 
-Label(mainScreen, text="Welcome to Livescore client", bg="#000000", width=110, height=2, font=(14), fg="#FF8A0B").grid(row=0, columnspan=4, sticky="we")
+Label(mainScreen, text="Welcome to Livescore client", bg="#000000", width=110, height=2, font=(14), fg="#ff9017").grid(row=0, columnspan=4, sticky="we")
 
-Button(mainScreen, text="Go to home", height=2, width=30, command=toggleHome, bg="#212121", fg="#FF8A0B").grid(row=1, column=0, sticky="w")
-Button(mainScreen, text="Login", height=2, width=20, command=partial(toggleLogin, mainScreen, client, layouts), bg="#212121", fg="#FF8A0B").grid(row=1, column=1, sticky="w")
-Button(mainScreen, text="Register", height=2, width=20, command=partial(toggleRegister, mainScreen, client, layouts), bg="#212121", fg="#FF8A0B").grid(row=1, column=2, sticky="w")
-Button(mainScreen, text="Logout", height=2, width=20, command=toggleLogout, bg="#212121", fg="#FF8A0B").grid(row=1, column=3, sticky="w")
+Button(mainScreen, text="Go to home", height=2, width=34, command=toggleHome, bg="#212121", fg="#ff9017").grid(row=1, column=0, sticky="w")
+Button(mainScreen, text="Login", height=2, width=34, command=partial(toggleLogin, mainScreen, client, layouts), bg="#212121", fg="#ff9017").grid(row=1, column=1, sticky="w")
+Button(mainScreen, text="Register", height=2, width=34, command=partial(toggleRegister, mainScreen, client, layouts), bg="#212121", fg="#ff9017").grid(row=1, column=2, sticky="w")
+Button(mainScreen, text="Logout", height=2, width=34, command=toggleLogout, bg="#212121", fg="#ff9017").grid(row=1, column=3, sticky="w")
+
+Label(mainScreen, text="© Copyright 2021 by Huy Le Minh and Hung Nguyen Hua",bg="#000000", font=(10), fg="#ff9017", justify=CENTER).grid(sticky="swe", row=3, columnspan=4)
 
 mainScreen.columnconfigure(3, weight=1)
 mainScreen.rowconfigure(2, weight=1)
