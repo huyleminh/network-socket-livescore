@@ -36,8 +36,25 @@ class DBMatchesHandler:
             dataMatches = res["data"]
             for i in range(0, len(dataMatches)):
                 if dataMatches[i]["idMatch"] == idMatch:
-                    return { "status": 200, "data": dataMatches[i] }
+                    matchDetailRes = DBDetailsHandler.getDetailsById(dataMatches[i]["details"], dataMatches[i]["idMatch"])
 
+                    if matchDetailRes["status"] == 200:
+                        matchDetail = matchDetailRes["data"]
+                        return {
+                            "status": 200,
+                            "data": {
+                                "match": dataMatches[i],
+                                "details": matchDetail
+                            }
+                        }
+                    elif matchDetailRes["status"] == 404:
+                        return {
+                            "status": 200,
+                            "data": {
+                                "match": dataMatches[i],
+                                "details": {}
+                            }
+                        }
             return { "status": 404 }
 
     @staticmethod

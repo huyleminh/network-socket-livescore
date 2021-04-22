@@ -9,15 +9,12 @@ from db.DBHandler import DBHandler
 
 class Authentication:
     @staticmethod
-    def checkLogin(userInfo=None):
-        if not userInfo:
-            return False
-
+    def checkLogin(userInfo):
         users = DBHandler.readAllUsers()
         for user in users:
             if userInfo["username"] == user["username"] and userInfo["password"] == user["password"]:
-                return True
-        return False
+                return { "status": True, "role": user["role"] }
+        return { "status": False }
 
     @staticmethod
     def checkRegister(userInfo=None):
