@@ -14,7 +14,9 @@ server = socket.socket(ConstSock.IP_ADDRESS, ConstSock.PROTOCOL)
 server.bind((ConstSock.HOST_IP, ConstSock.DEFAULT_PORT))
 server.listen(ConstSock.MAX_CLIENTS)
 
-userConnections = [], addresses = [], n = 0 #client counter
+userConnections = []
+addresses = []
+n = 0 #client counter
 
 def mainThreadServerSide():
     global server, addresses
