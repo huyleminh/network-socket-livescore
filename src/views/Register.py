@@ -1,7 +1,10 @@
-from tkinter import *
-import sys, math, json
-from pathlib import Path
+import json
+import math
+import sys
 from functools import partial
+from pathlib import Path
+from tkinter import messagebox
+from tkinter import *
 
 pathfile = Path(__file__).resolve()
 sharedRoot = pathfile.parents[1]
@@ -10,8 +13,14 @@ sys.path.append(str(sharedRoot))
 from shared.Message import Request
 
 
-def sendRegister(client, username, password):
-    client.send(bytes(Request.REGISTER_MODE, "utf8"))
+def sendRegister(client, username, password, registerScreen):
+    try:
+        client.send(bytes(Request.REGISTER_MODE, "utf8"))
+    except:
+        messagebox.showerror("Error", "Server interrupted")
+        registerScreen.destroy()
+        return
+
     u = username.get()
     p = password.get()
     userInfo = { "username": u, "password": p, "role": "client"}
@@ -38,7 +47,7 @@ def toggleRegister(mainScreen, client, layouts):
     passwordLabel = Label(registerScreen, text="Password").grid(row=1, column=0)
     passwordEntry = Entry(registerScreen, textvariable=password, show="*", width=40).grid(row=1, column=1)
 
-    registerSubmit = Button(registerScreen, text="Register", width=10, height=1, bg="#46a049", fg="#ffffff", command=partial(sendRegister, client, username, password)).grid(row=2, column=1)
+    registerSubmit = Button(registerScreen, text="Register", width=10, height=1, bg="#46a049", fg="#ffffff", command=partial(sendRegister, client, username, password, registerScreen)).grid(row=2, column=1)
     layouts["register"] = registerScreen
 
     registerScreen.mainloop()
