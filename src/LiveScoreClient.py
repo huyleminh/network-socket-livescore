@@ -42,20 +42,20 @@ def receive():
         while connected == True: # ? Try to login
             while login["status"] == False:
                 mode = client.recv(1024).decode("utf8") # determine accepted mode from server
-                if mode == Response.CLOSE_CONNECTION: # raise an error when chosing mode
-                    raise Exception("Chose mode failed")
+                if mode == Response.CLOSE_CONNECTION: # raise an error when choosing mode
+                    raise Exception("Choose mode failed")
                 elif mode == Request.LOGIN_MODE:
                     msg = client.recv(1024).decode("utf8")
 
                     if msg == Login.SUCCESS:
                         login = { "status": True, "role": "client"}
                         layouts["login"].destroy()
-                        messagebox.showinfo("Alert", "Login successfully, welcome client.")
+                        messagebox.showinfo("Notification", "Login successfully, welcome CLIENT.")
                         break
                     elif msg == Login.ADMIN_ACCESS:
                         login = { "status": True, "role": "admin"}
                         layouts["login"].destroy()
-                        messagebox.showinfo("Alert", "Login successfully, welcome admin.")
+                        messagebox.showinfo("Notification", "Login successfully, welcome ADMIN.")
                     elif msg == Login.FAILED:
                         layouts["login"].destroy()
                         messagebox.showwarning("Alert", "Unable to login, please try again.")
@@ -65,7 +65,7 @@ def receive():
                     if msg == Login.SUCCESS:
                         login = { "status": True, "role": "client"}
                         layouts["register"].destroy()
-                        messagebox.showinfo("Alert","Register successfully.")
+                        messagebox.showinfo("Notification","Register successfully.")
                         break
                     elif msg == Login.FAILED:
                         layouts["register"].destroy()
@@ -86,6 +86,8 @@ def receive():
                 response = msg["data"]
                 if response["status"] == 200:
                     detailMatchView(response["data"])
+            elif msg["code"] == Response.REAL_TIME_MODE:
+                break #developing
 
         client.close()
     except Exception:
@@ -109,7 +111,7 @@ def toggleHome():
 
 def toggleLogin():
     if login["status"]:
-        messagebox.showinfo("Alert", "You are already logged in")
+        messagebox.showinfo("Notification", "You are already logged in")
         return
     else:
         loginView(mainScreen, client, layouts)

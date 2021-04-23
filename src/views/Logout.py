@@ -11,6 +11,6 @@ sys.path.append(str(sharedRoot))
 from shared.Message import Request
 
 def logoutProcess(client, layouts):
-    messagebox.showinfo("Alert", "Thank you, see you again")
+    messagebox.showinfo("Notification", "Thank you, see you again")
     client.send(bytes(json.dumps({ "code": Request.CLOSE_CONNECTION }), "utf8"))
     layouts["mainScreen"].destroy()

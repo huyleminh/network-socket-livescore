@@ -59,6 +59,17 @@ def homeView(mainScreen, layouts, client, role):
 
     Button(
         homeScreen,
+        text="Real-time mode",
+        height=2, width=30,
+        bg="#212121",
+        fg="#ff9017",
+        activebackground="#363636",
+        activeforeground="#e8e3e3",
+        command=partial(viewAllMatch, client)
+    ).grid(row=2, column=0, sticky="w")
+
+    Button(
+        homeScreen,
         text="Go Back",
         height=2,
         width=30,

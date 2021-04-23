@@ -14,6 +14,7 @@ class Response:
 
     VIEW_ALL_MATCHES = "hGBHGYUhhjjkh"
     VIEW_MATCH_BY_ID = "wfgsffasefwse"
+    REAL_TIME_MODE = "OnHsnakDJHsnA"
 
     # AUTHENTICATION_REQUEST = "uekolwgbhdfJWSKLRF"
 
@@ -25,3 +26,4 @@ class Request:
 
     VIEW_ALL_MATCHES = "SdndhasnfgSAbc"
     VIEW_MATCH_BY_ID = "ghjkbGHJKvgbvb"
+    REAL_TIME_MODE = "NshDnsakgnASJr"

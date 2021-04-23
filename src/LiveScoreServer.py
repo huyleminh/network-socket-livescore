@@ -125,6 +125,15 @@ def clientThreadServerSide(connection, address):
                 response = DBMatchesHandler.getMatchById(idMatch)
                 connection.send(bytes(json.dumps({ "code": Response.VIEW_MATCH_BY_ID, "data": response }), "utf8"))
 
+            if res["code"] == Request.REAL_TIME_MODE:
+                response = DBMatchesHandler.getAllMatches()
+                matches = []
+                if response["status"] == 500:
+                    matches = []
+                elif response["status"] == 200:
+                    matches = response["data"]
+                connection.send(bytes(json.dumps({ "code": Response.REAL_TIME_MODE, "data": matches }),"utf8"))
+
     except: #Client suddenly drops connection
         print("Client ", address," error detected. Auto close connection.")
         connection.close()
