@@ -28,73 +28,73 @@ layouts = {}
 
 def receive():
     global login, connected, denny
-    # try:
-    msg =  client.recv(1024).decode("utf8")
+    try:
+        msg =  client.recv(1024).decode("utf8")
 
-    if msg == Response.EXCESS_CONNECTION: #msg indicate that there are too many connection, force close
-        denny = True
-        messagebox.showerror("Error detected", "Connection denied, queue is overflow. Please try again later.")
-    elif msg == Response.SUCCESS_CONNECTION:
-        connected = True
-        print("Connect successfully.")
+        if msg == Response.EXCESS_CONNECTION: #msg indicate that there are too many connection, force close
+            denny = True
+            messagebox.showerror("Error detected", "Connection denied, queue is overflow. Please try again later.")
+        elif msg == Response.SUCCESS_CONNECTION:
+            connected = True
+            print("Connect successfully.")
 
-    # Done: connect sucessfully
-    while connected == True: # ? Try to login
-        while login["status"] == False:
-            mode = client.recv(1024).decode("utf8") # determine accepted mode from server
-            if mode == Response.CLOSE_CONNECTION: # raise an error when chosing mode
-                raise Exception("Chose mode failed")
-            elif mode == Request.LOGIN_MODE:
-                msg = client.recv(1024).decode("utf8")
+        # Done: connect sucessfully
+        while connected == True: # ? Try to login
+            while login["status"] == False:
+                mode = client.recv(1024).decode("utf8") # determine accepted mode from server
+                if mode == Response.CLOSE_CONNECTION: # raise an error when chosing mode
+                    raise Exception("Chose mode failed")
+                elif mode == Request.LOGIN_MODE:
+                    msg = client.recv(1024).decode("utf8")
 
-                if msg == Login.SUCCESS:
-                    login = { "status": True, "role": "client"}
-                    layouts["login"].destroy()
-                    messagebox.showinfo("Alert", "Login successfully, welcome client.")
+                    if msg == Login.SUCCESS:
+                        login = { "status": True, "role": "client"}
+                        layouts["login"].destroy()
+                        messagebox.showinfo("Alert", "Login successfully, welcome client.")
+                        break
+                    elif msg == Login.ADMIN_ACCESS:
+                        login = { "status": True, "role": "admin"}
+                        layouts["login"].destroy()
+                        messagebox.showinfo("Alert", "Login successfully, welcome admin.")
+                    elif msg == Login.FAILED:
+                        layouts["login"].destroy()
+                        messagebox.showwarning("Alert", "Unable to login, please try again.")
+                elif mode == Request.REGISTER_MODE:
+                    msg = client.recv(1024).decode("utf8")
+
+                    if msg == Login.SUCCESS:
+                        login = { "status": True, "role": "client"}
+                        layouts["register"].destroy()
+                        messagebox.showinfo("Alert","Register successfully.")
+                        break
+                    elif msg == Login.FAILED:
+                        layouts["register"].destroy()
+                        messagebox.showwarning("Alert","Account existed.")
+
+            msg = ""
+            while True:
+                temp = client.recv(1024).decode("utf8")
+                msg += temp
+                if len(temp) != 1024:
                     break
-                elif msg == Login.ADMIN_ACCESS:
-                    login = { "status": True, "role": "admin"}
-                    layouts["login"].destroy()
-                    messagebox.showinfo("Alert", "Login successfully, welcome admin.")
-                elif msg == Login.FAILED:
-                    layouts["login"].destroy()
-                    messagebox.showwarning("Alert", "Unable to login, please try again.")
-            elif mode == Request.REGISTER_MODE:
-                msg = client.recv(1024).decode("utf8")
-
-                if msg == Login.SUCCESS:
-                    login = { "status": True, "role": "client"}
-                    layouts["register"].destroy()
-                    messagebox.showinfo("Alert","Register successfully.")
-                    break
-                elif msg == Login.FAILED:
-                    layouts["register"].destroy()
-                    messagebox.showwarning("Alert","Account existed.")
-
-        msg = ""
-        while True:
-            temp = client.recv(1024).decode("utf8")
-            msg += temp
-            if len(temp) != 1024:
+            msg = json.loads(msg)
+            if msg["code"] == Response.CLOSE_CONNECTION:
                 break
-        msg = json.loads(msg)
-        if msg["code"] == Response.CLOSE_CONNECTION:
-            break
-        elif msg["code"] == Response.VIEW_ALL_MATCHES:
-            allMatchView(client, msg["data"])
-        elif msg["code"] == Response.VIEW_MATCH_BY_ID:
-            response = msg["data"]
-            if response["status"] == 200:
-                detailMatchView(response["data"])
+            elif msg["code"] == Response.VIEW_ALL_MATCHES:
+                allMatchView(client, msg["data"])
+            elif msg["code"] == Response.VIEW_MATCH_BY_ID:
+                response = msg["data"]
+                if response["status"] == 200:
+                    detailMatchView(response["data"])
 
-    client.close()
-    # except Exception:
-    #     connected = False
-    #     client.close()
-    # except:
-    #     print("Server error detected. Press enter to close connection.")
-    #     connected = False
-    #     client.close()
+        client.close()
+    except Exception:
+        connected = False
+        client.close()
+    except:
+        print("Server error detected. Press enter to close connection.")
+        connected = False
+        client.close()
 
 clientThread = Thread(target=receive)
 clientThread.start()
