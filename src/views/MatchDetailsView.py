@@ -7,10 +7,6 @@ from tkinter import ttk
 def detailMatchView(dataDetail):
     detailView = Tk()
     detailView.title("View details")
-    WIDTH = detailView.winfo_screenwidth()
-    HEIGHT = detailView.winfo_screenheight()
-    PADDING_LEFT = math.ceil(WIDTH / 3)
-    PADDING_TOP = math.ceil(HEIGHT / 4)
     detailView.configure(bg="#000000")
 
     match = dataDetail["match"]
@@ -50,18 +46,17 @@ def detailMatchView(dataDetail):
         details = dataDetail["details"]
 
         if homeScore != "?" and awayScore != "?":
-            homeScore = 0
-            awayScore = 0
+            homeScore = awayScore = 0
 
         events = details["events"]
+
         for i in range(0, len(events)):
             event = events[i]
-            homePlayer = ""
-            awayPlayer = ""
+            homePlayer = awayPlayer = ""
 
             player = event["player"]
             if event["assist"] != "null":
-                player += "(Assist: " + event["assist"] + ")"
+                player += " (Assist: " + event["assist"] + ")"
             if event["team"] == "home":
                 homePlayer = player
                 if event["type"] == "goal":

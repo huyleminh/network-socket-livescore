@@ -16,6 +16,8 @@ class Response:
     VIEW_MATCH_BY_ID = "wfgsffasefwse"
     REAL_TIME_MODE = "OnHsnakDJHsnA"
 
+    FORCE_CLOSE_CONNECTION = "HhjkkHujkhjkhHklhuhug"
+
     # AUTHENTICATION_REQUEST = "uekolwgbhdfJWSKLRF"
 
 class Request:
@@ -27,3 +29,5 @@ class Request:
     VIEW_ALL_MATCHES = "SdndhasnfgSAbc"
     VIEW_MATCH_BY_ID = "ghjkbGHJKvgbvb"
     REAL_TIME_MODE = "NshDnsakgnASJr"
+
+    FORCE_CLOSE_CONNECTION = "fweewdffawerfwerqfwasdf"

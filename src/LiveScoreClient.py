@@ -42,6 +42,7 @@ def receive():
         while connected == True: # ? Try to login
             while login["status"] == False:
                 mode = client.recv(1024).decode("utf8") # determine accepted mode from server
+                mode = json.loads(mode)["code"]
                 if mode == Response.CLOSE_CONNECTION: # raise an error when choosing mode
                     raise Exception("Choose mode failed")
                 elif mode == Request.LOGIN_MODE:
@@ -88,6 +89,10 @@ def receive():
                     detailMatchView(response["data"])
             elif msg["code"] == Response.REAL_TIME_MODE:
                 break #developing
+            elif msg["code"] == Response.FORCE_CLOSE_CONNECTION:
+                messagebox.showinfo("Alert", "Server forced you to close current connection")
+
+                client.send(bytes(json.dumps({ "code": Request.CLOSE_CONNECTION}), "utf8"))
 
         client.close()
     except Exception:
@@ -136,20 +141,15 @@ mainScreen.title("Main screen")
 mainScreen.configure(bg="#000000")
 
 layouts["mainScreen"] = mainScreen
-
-WIDTH = mainScreen.winfo_screenwidth()
-HEIGHT = mainScreen.winfo_screenheight()
-PADDING_LEFT = math.ceil(WIDTH / 4)
-PADDING_TOP = math.ceil(HEIGHT / 8)
-mainScreen.geometry(str(math.ceil(WIDTH / 2)) + "x" + str(math.ceil(HEIGHT / 2)) + "+" + str(PADDING_LEFT) + "+" + str(PADDING_TOP))
+mainScreen.geometry("1020x600+150+150")
 
 if not denny: # Success connection
     Label(mainScreen, text="Welcome To LiveScore For Client", bg="#000000", width=110, height=2, font=(14), fg="#ff9017").grid(row=0, columnspan=4, sticky="we")
 
-    Button(mainScreen, text="Choose features", height=2, width=34, activebackground="#363636", command=toggleHome, bg="#212121", fg="#ff9017").grid(row=1, column=0, sticky="w")
-    Button(mainScreen, text="Login", height=2, width=34, activebackground="#363636", command=toggleLogin, bg="#212121", fg="#ff9017").grid(row=1, column=1, sticky="w")
-    Button(mainScreen, text="Register", height=2, width=34, activebackground="#363636", command=partial(toggleRegister, mainScreen, client, layouts), bg="#212121", fg="#ff9017").grid(row=1, column=2, sticky="w")
-    Button(mainScreen, text="Logout", height=2, width=34, activebackground="#363636", command=toggleLogout, bg="#212121", fg="#ff9017").grid(row=1, column=3, sticky="w")
+    Button(mainScreen, text="Choose features", height=2, width=35, activebackground="#363636", command=toggleHome, bg="#212121", fg="#ff9017").grid(row=1, column=0, sticky="w")
+    Button(mainScreen, text="Login", height=2, width=35, activebackground="#363636", command=toggleLogin, bg="#212121", fg="#ff9017").grid(row=1, column=1, sticky="w")
+    Button(mainScreen, text="Register", height=2, width=35, activebackground="#363636", command=partial(toggleRegister, mainScreen, client, layouts), bg="#212121", fg="#ff9017").grid(row=1, column=2, sticky="w")
+    Button(mainScreen, text="Logout", height=2, width=35, activebackground="#363636", command=toggleLogout, bg="#212121", fg="#ff9017").grid(row=1, column=3, sticky="w")
 
     Label(mainScreen, text="© Copyright 2021 - Developed by Huy Le Minh and Hung Nguyen Hua",bg="#000000", font=(10), fg="#ff9017", justify=CENTER).grid(sticky="swe", row=3, columnspan=4)
 

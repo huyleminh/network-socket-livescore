@@ -1,9 +1,10 @@
+import json
 import math
 import sys
-import json
 from functools import partial
 from pathlib import Path
 from tkinter import *
+from tkinter import messagebox
 
 pathfile = Path(__file__).resolve()
 sharedRoot = pathfile.parents[1]
@@ -12,19 +13,19 @@ sys.path.append(str(sharedRoot))
 from shared.Message import Request
 
 
-def viewAllMatch(client):
-    client.send(bytes(json.dumps({ "code": Request.VIEW_ALL_MATCHES }), "utf8"))
+def viewAllMatch(client, layouts):
+    try:
+        client.send(bytes(json.dumps({ "code": Request.VIEW_ALL_MATCHES }), "utf8"))
+    except:
+        messagebox.showerror("Error", "Connection error")
+        layouts["homeScreen"].destroy()
 
 def backToMain(layouts):
     layouts["homeScreen"].destroy()
 
 def homeView(mainScreen, layouts, client, role):
     homeScreen = Toplevel(mainScreen)
-    WIDTH = homeScreen.winfo_screenwidth()
-    HEIGHT = homeScreen.winfo_screenheight()
-    PADDING_LEFT = math.ceil(WIDTH / 4)
-    PADDING_TOP = math.ceil(HEIGHT / 8)
-    homeScreen.geometry(str(math.ceil(WIDTH / 2)) + "x" + str(math.ceil(HEIGHT / 2)) + "+" + str(PADDING_LEFT) + "+" + str(PADDING_TOP))
+    homeScreen.geometry("1020x600+150+150")
     homeScreen.configure(bg="#000000")
     layouts["homeScreen"] = homeScreen
 
@@ -40,7 +41,7 @@ def homeView(mainScreen, layouts, client, role):
         fg="#ff9017",
         activebackground="#363636",
         activeforeground="#e8e3e3",
-        command=partial(viewAllMatch, client)
+        command=partial(viewAllMatch, client, layouts)
     ).grid(row=1, column=0, sticky="w")
 
     if role == "admin":
@@ -54,7 +55,6 @@ def homeView(mainScreen, layouts, client, role):
             fg="#ff9017",
             activebackground="#363636",
             activeforeground="#e8e3e3",
-            # command=partial(backToMain, layouts)
         ).grid(row=1, column=1, sticky="w")
 
     Button(
@@ -65,7 +65,7 @@ def homeView(mainScreen, layouts, client, role):
         fg="#ff9017",
         activebackground="#363636",
         activeforeground="#e8e3e3",
-        command=partial(viewAllMatch, client)
+        command=partial(viewAllMatch, client, layouts)
     ).grid(row=2, column=0, sticky="w")
 
     Button(
