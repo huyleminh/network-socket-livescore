@@ -5,6 +5,6 @@ class ConstSock:
     PROTOCOL = socket.SOCK_STREAM
 
     DEFAULT_PORT = 30000
-    HOST_IP = "127.0.0.1" # Loop back
+    HOST_IP = "172.20.10.3" # Loop back
 
     MAX_CLIENTS = 2
