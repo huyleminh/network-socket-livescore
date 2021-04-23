@@ -1,6 +1,7 @@
 import json
 import math
 from tkinter import *
+from tkinter import ttk
 
 
 def detailMatchView(dataDetail):
@@ -10,60 +11,71 @@ def detailMatchView(dataDetail):
     HEIGHT = detailView.winfo_screenheight()
     PADDING_LEFT = math.ceil(WIDTH / 3)
     PADDING_TOP = math.ceil(HEIGHT / 4)
-    detailView.geometry(str(math.ceil(WIDTH / 3)) + "x" + str(math.ceil(HEIGHT / 3)) + "+" + str(PADDING_LEFT) + "+" + str(PADDING_TOP))
     detailView.configure(bg="#000000")
 
     match = dataDetail["match"]
     homeScore = match["homeScore"]
     awayScore = match["awayScore"]
 
-    detailView.columnconfigure(0, weight=1)
-    Label(detailView, text=match["status"], justify=CENTER, fg="#ff9017", bg="#000000").grid(row=0, column=0)
+    styles = ttk.Style(detailView)
+    styles.theme_use("default")
+    styles.configure("Treeview", background="#000000", fieldbackground="#000000", rowheight=30)
+    styles.map("Treeview", background=[("selected", "#414141")], foreground=[("selected", "#ff8300"), ("!selected", "#f48f29")])
 
-    detailView.columnconfigure(1, weight=1)
-    Label(detailView, text=match["home"], justify=CENTER, fg="#ff9017", bg="#000000").grid(row=0, column=1)
+    treeDetails = ttk.Treeview(detailView)
+    scrollbar = ttk.Scrollbar(detailView, orient=VERTICAL, command=treeDetails.yview)
+    scrollbar.pack(side="right", fill="x")
 
-    detailView.columnconfigure(2, weight=1)
-    result = homeScore + " - " + awayScore
-    Label(detailView, text=result, fg="#ff9017", bg="#000000").grid(row=0, column=2)
+    treeDetails["columns"] = ("Time", "Home", "Event", "Away")
 
-    detailView.columnconfigure(3, weight=1)
-    Label(detailView, text=match["away"], justify=CENTER, fg="#ff9017", bg="#000000").grid(row=0, column=3)
+    treeDetails.column("#0", anchor=CENTER, width=40, minwidth=40)
+    treeDetails.column("Time", anchor=CENTER, width=60, minwidth=40)
+    treeDetails.column("Home", anchor=CENTER, width=250, minwidth=100)
+    treeDetails.column("Event", anchor=CENTER, width=100, minwidth=100)
+    treeDetails.column("Away", anchor=CENTER, width=250, minwidth=100)
 
-    detailView.rowconfigure(1, weight=1)
-    Label(detailView, text="               Events:", bg="#212121", fg="#ff9017", anchor="w").grid(row=1, columnspan=4, sticky="we")
+    treeDetails.heading("#0", text="No", anchor=CENTER)
+    treeDetails.heading("Time", text="Time", anchor=CENTER)
+    treeDetails.heading("Home", text="Home", anchor=CENTER)
+    treeDetails.heading("Event", text="", anchor=CENTER)
+    treeDetails.heading("Away", text="Away", anchor=CENTER)
 
-    if dataDetail["details"] == {}:
-        Label(detailView, text="No events detected", fg="#ff9017", anchor="center").grid(row=2, columnspan=4, sticky="we")
-    else:
+    treeDetails.pack(fill=BOTH)
+
+    result = match["homeScore"] + " - " + match["awayScore"]
+    treeDetails.insert("", "end", text="", values=(match["status"], match["home"], result, match["away"]))
+    treeDetails.insert("", "end", text="", values=("", "", "", ""))
+
+    if dataDetail["details"] != {}:
         details = dataDetail["details"]
 
         if homeScore != "?" and awayScore != "?":
-            homeScore = awayScore = 0
+            homeScore = 0
+            awayScore = 0
 
         events = details["events"]
         for i in range(0, len(events)):
             event = events[i]
-            detailView.rowconfigure(i + 2, weight=1)
-            Label(detailView, text=event["time"], justify=CENTER, fg="#ff9017", bg="#000000").grid(row=i + 2, column=0)
+            homePlayer = ""
+            awayPlayer = ""
 
             player = event["player"]
             if event["assist"] != "null":
                 player += "(Assist: " + event["assist"] + ")"
-
             if event["team"] == "home":
-                Label(detailView, text= player, justify=CENTER, fg="#ff9017", bg="#000000").grid(row=i + 2, column=1)
+                homePlayer = player
                 if event["type"] == "goal":
                     homeScore += 1
-                    Label(detailView, text=str(homeScore) + " - " + str(awayScore), justify=CENTER, fg="#ff9017", bg="#000000").grid(row=i + 2, column=2)
+                    result = str(homeScore) + " - " + str(awayScore)
                 else:
-                    Label(detailView, text=event["type"], justify=CENTER, fg="#ff9017", bg="#000000").grid(row=i + 2, column=2)
+                    result = event["type"]
             else:
+                awayPlayer = player
                 if event["type"] == "goal":
                     awayScore += 1
-                    Label(detailView, text=str(homeScore) + " - " + str(awayScore), justify=CENTER, fg="#ff9017", bg="#000000").grid(row=i + 2, column=2)
+                    result = str(homeScore) + " - " + str(awayScore)
                 else:
-                    Label(detailView, text=event["type"], justify=CENTER, fg="#ff9017", bg="#000000").grid(row=i + 2, column=2)
-                Label(detailView, text= player, justify=CENTER, fg="#ff9017", bg="#000000").grid(row=i + 2, column=3)
+                    result = event["type"]
+            treeDetails.insert("", "end", text=i + 1, values=(event["time"], homePlayer, result, awayPlayer))
 
     detailView.mainloop()
