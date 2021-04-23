@@ -88,5 +88,32 @@
         "homeScore": "1",
         "awayScore": "0",
         "details": "8TVUMVp7EM"
+    },
+    {
+        "idMatch": "JuhPBL2XeU",
+        "home": "Tottenham Hotspur",
+        "away": "Southampton",
+        "status": "FT",
+        "homeScore": "2",
+        "awayScore": "1",
+        "details": "3xW6H2reJC"
+    },
+    {
+        "idMatch": "9ryTgwGVYT",
+        "home": "Aston Villa",
+        "away": "Manchester City",
+        "status": "FT",
+        "homeScore": "1",
+        "awayScore": "2",
+        "details": "CSQ345AXRr"
+    },
+    {
+        "idMatch": "8U6hrZvTM9",
+        "home": "Millwall",
+        "away": "AFC Bournemouth",
+        "status": "FT",
+        "homeScore": "1",
+        "awayScore": "4",
+        "details": "7ZLWQUnBp5"
     }
 ]

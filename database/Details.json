@@ -457,5 +457,177 @@
                 "player": "Rodrigo Andres Battaglia"
             }
         ]
+    },
+    {
+        "idDetail": "3xW6H2reJC",
+        "idMatch": "JuhPBL2XeU",
+        "events": [
+            {
+                "type": "goal",
+                "assist": "James Ward-Prowse",
+                "team": "away",
+                "time": "30'",
+                "player": "Danny Ings"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "43'",
+                "player": "Tanguy Ndombele"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "home",
+                "time": "60'",
+                "player": "Gareth Bale"
+            },
+            {
+                "type": "goal-dennied",
+                "assist": null,
+                "team": "home",
+                "time": "75'",
+                "player": "Heung-Min Son"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "87'",
+                "player": "Moussa Djenepo"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "home",
+                "time": "90'",
+                "player": "Heung-Min Son"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "90 + 5'",
+                "player": "Eric Dier"
+            }
+        ]
+    },
+    {
+        "idDetail": "CSQ345AXRr",
+        "idMatch": "9ryTgwGVYT",
+        "events": [
+            {
+                "type": "goal",
+                "assist": "Ollie Watkins",
+                "team": "home",
+                "time": "1'",
+                "player": "John McGinn"
+            },
+            {
+                "type": "goal",
+                "assist": "Bernardo Silva",
+                "team": "away",
+                "time": "22'",
+                "player": "Phil Foden"
+            },
+            {
+                "type": "goal",
+                "assist": "Bernardo Silva",
+                "team": "away",
+                "time": "40'",
+                "player": "Rodri"
+            },
+            {
+                "type": "red-card",
+                "assist": null,
+                "team": "away",
+                "time": "44'",
+                "player": "John Stones"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "away",
+                "time": "44'",
+                "player": "Ilkay Gundogan"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "54'",
+                "player": "Matty Cash"
+            },
+            {
+                "type": "second-yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "57'",
+                "player": "Matty Cash"
+            }
+        ]
+    },
+    {
+        "idDetail": "7ZLWQUnBp5",
+        "idMatch": "8U6hrZvTM9",
+        "events": [
+            {
+                "type": "goal",
+                "assist": "Dominic Solanke",
+                "team": "away",
+                "time": "16'",
+                "player": "Philip Billing"
+            },
+            {
+                "type": "goal",
+                "assist": "Asmir Begovic",
+                "team": "away",
+                "time": "27'",
+                "player": "Arnaut Danjuma"
+            },
+            {
+                "type": "goal",
+                "assist": "Dominic Solanke",
+                "team": "away",
+                "time": "44'",
+                "player": "David Brooks"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "46'",
+                "player": "Scott Malone"
+            },
+            {
+                "type": "goal",
+                "assist": null,
+                "team": "home",
+                "time": "49'",
+                "player": "Jed Wallace"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "65'",
+                "player": "Jake Cooper"
+            },
+            {
+                "type": "goal",
+                "assist": "Philip Billing",
+                "team": "away",
+                "time": "67'",
+                "player": "Dominic Solanke"
+            },
+            {
+                "type": "yellow-card",
+                "assist": null,
+                "team": "home",
+                "time": "80'",
+                "player": "Dan McNamara"
+            }
+        ]
     }
 ]
