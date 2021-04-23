@@ -14,7 +14,9 @@ class Response:
 
     VIEW_ALL_MATCHES = "hGBHGYUhhjjkh"
     VIEW_MATCH_BY_ID = "wfgsffasefwse"
+    REAL_TIME_MODE_INIT = "NnasdfAYSfnas"
     REAL_TIME_MODE = "OnHsnakDJHsnA"
+    HALT_RT_MODE = "KdhASndgfyasnS"
 
     # AUTHENTICATION_REQUEST = "uekolwgbhdfJWSKLRF"
 
@@ -26,4 +28,7 @@ class Request:
 
     VIEW_ALL_MATCHES = "SdndhasnfgSAbc"
     VIEW_MATCH_BY_ID = "ghjkbGHJKvgbvb"
-    REAL_TIME_MODE = "NshDnsakgnASJr"
+    REAL_TIME_MODE_INIT = "NshDnsakgnASJr"
+    REAL_TIME_MODE = "NsaGHasuThasn"
+    REAL_TIME_MODE_DELAY = "NASFbahasdASD"
+    HALT_RT_MODE = "HSJsDnGhsanajT"

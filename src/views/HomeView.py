@@ -15,6 +15,9 @@ from shared.Message import Request
 def viewAllMatch(client):
     client.send(bytes(json.dumps({ "code": Request.VIEW_ALL_MATCHES }), "utf8"))
 
+def initRT(client):
+    client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
+
 def backToMain(layouts):
     layouts["homeScreen"].destroy()
 
@@ -65,7 +68,7 @@ def homeView(mainScreen, layouts, client, role):
         fg="#ff9017",
         activebackground="#363636",
         activeforeground="#e8e3e3",
-        command=partial(viewAllMatch, client)
+        command=partial(initRT, client)
     ).grid(row=2, column=0, sticky="w")
 
     Button(

@@ -25,6 +25,16 @@ login = { "status": False, "role": ""}
 connected = False
 denny = False
 layouts = {}
+msgRT = ""
+
+def realTime(client):
+    global msgRT
+    while True:
+        temp1 = client.recv(1024).decode("utf8")
+        msgRT += temp1
+        if len(temp1) != 1024:
+            break
+    msgRT = json.loads(msgRT)
 
 def receive():
     global login, connected, denny
@@ -86,8 +96,21 @@ def receive():
                 response = msg["data"]
                 if response["status"] == 200:
                     detailMatchView(response["data"])
+            elif msg["code"] == Response.REAL_TIME_MODE_INIT:
+                realTimeView(client, msg["data"])
             elif msg["code"] == Response.REAL_TIME_MODE:
-                break #developing
+                global msgRT
+                tempThread = Thread(target=realTime, args=(client,))
+                tempThread.start()
+                while True:
+                    time.sleep(1)
+                    client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
+                    if msgRT["code"] == Response.HALT_RT_MODE:
+                        break
+                    allMatchView(client, msg["data"])
+                    #realTimeView(client, msgRT["data"])
+            #elif msg["code"] == Response.HALT_RT_MODE:
+
 
         client.close()
     except Exception:
