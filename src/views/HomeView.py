@@ -30,11 +30,11 @@ def homeView(mainScreen, layouts, client, role):
 
     searchID = StringVar()
 
-    Label(homeScreen, text="Welcome " + role, bg="#000000", height=2, width=110, font=(14), fg="#ff9017", justify=CENTER).grid(row=0, columnspan=4, sticky="nwe")
+    Label(homeScreen, text="Menu for " + role, bg="#000000", height=2, width=110, font=(14), fg="#ff9017", justify=CENTER).grid(row=0, columnspan=4, sticky="nwe")
 
     Button(
         homeScreen,
-        text="View all match",
+        text="View all matches",
         height=2, width=30,
         bg="#212121",
         fg="#ff9017",
@@ -59,7 +59,7 @@ def homeView(mainScreen, layouts, client, role):
 
     Button(
         homeScreen,
-        text="Back",
+        text="Go Back",
         height=2,
         width=30,
         bg="#212121",

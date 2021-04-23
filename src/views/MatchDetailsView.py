@@ -6,7 +6,7 @@ from tkinter import ttk
 
 def detailMatchView(dataDetail):
     detailView = Tk()
-    detailView.title("Detail view")
+    detailView.title("View details")
     WIDTH = detailView.winfo_screenwidth()
     HEIGHT = detailView.winfo_screenheight()
     PADDING_LEFT = math.ceil(WIDTH / 3)

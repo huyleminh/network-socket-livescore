@@ -24,7 +24,7 @@ def allMatchView(client, data):
         currId = treeMatch.focus()
         viewMatchByID(view, client, currId)
     view = Tk()
-    view.title("All match")
+    view.title("All matches")
     WIDTH = view.winfo_screenwidth()
     HEIGHT = view.winfo_screenheight()
     PADDING_LEFT = math.ceil(WIDTH / 3)

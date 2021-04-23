@@ -31,7 +31,7 @@ def receive():
     try:
         msg =  client.recv(1024).decode("utf8")
 
-        if msg == Response.EXCESS_CONNECTION: #msg indicate that there are too many connection, force close
+        if msg == Response.EXCESS_CONNECTION: #msg indicate that there are too many connections, force close
             denny = True
             messagebox.showerror("Error detected", "Connection denied, queue is overflow. Please try again later.")
         elif msg == Response.SUCCESS_CONNECTION:
@@ -142,14 +142,14 @@ PADDING_TOP = math.ceil(HEIGHT / 8)
 mainScreen.geometry(str(math.ceil(WIDTH / 2)) + "x" + str(math.ceil(HEIGHT / 2)) + "+" + str(PADDING_LEFT) + "+" + str(PADDING_TOP))
 
 if not denny: # Success connection
-    Label(mainScreen, text="Welcome to Livescore client", bg="#000000", width=110, height=2, font=(14), fg="#ff9017").grid(row=0, columnspan=4, sticky="we")
+    Label(mainScreen, text="Welcome To LiveScore For Client", bg="#000000", width=110, height=2, font=(14), fg="#ff9017").grid(row=0, columnspan=4, sticky="we")
 
-    Button(mainScreen, text="Go to home", height=2, width=34, activebackground="#363636", command=toggleHome, bg="#212121", fg="#ff9017").grid(row=1, column=0, sticky="w")
+    Button(mainScreen, text="Choose features", height=2, width=34, activebackground="#363636", command=toggleHome, bg="#212121", fg="#ff9017").grid(row=1, column=0, sticky="w")
     Button(mainScreen, text="Login", height=2, width=34, activebackground="#363636", command=toggleLogin, bg="#212121", fg="#ff9017").grid(row=1, column=1, sticky="w")
     Button(mainScreen, text="Register", height=2, width=34, activebackground="#363636", command=partial(toggleRegister, mainScreen, client, layouts), bg="#212121", fg="#ff9017").grid(row=1, column=2, sticky="w")
     Button(mainScreen, text="Logout", height=2, width=34, activebackground="#363636", command=toggleLogout, bg="#212121", fg="#ff9017").grid(row=1, column=3, sticky="w")
 
-    Label(mainScreen, text="© Copyright 2021 by Huy Le Minh and Hung Nguyen Hua",bg="#000000", font=(10), fg="#ff9017", justify=CENTER).grid(sticky="swe", row=3, columnspan=4)
+    Label(mainScreen, text="© Copyright 2021 - Developed by Huy Le Minh and Hung Nguyen Hua",bg="#000000", font=(10), fg="#ff9017", justify=CENTER).grid(sticky="swe", row=3, columnspan=4)
 
     mainScreen.rowconfigure(3, weight=1)
     mainScreen.protocol("WM_DELETE_WINDOW", onCloseWindow)
