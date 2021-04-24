@@ -25,17 +25,6 @@ login = { "status": False, "role": ""}
 connected = False
 denny = False
 layouts = {}
-msgRT = ""
-
-def realTime(client):
-    print("thread")
-    global msgRT
-    while True:
-        temp1 = client.recv(1024).decode("utf8")
-        msgRT += temp1
-        if len(temp1) != 1024:
-            break
-    msgRT = json.loads(msgRT)
 
 def receive():
     global login, connected, denny
