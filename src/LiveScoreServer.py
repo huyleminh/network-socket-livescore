@@ -170,6 +170,25 @@ def clientThreadServerSide(connection, address):
                 rowsCounter += 1
                 res = connection.recv(1024).decode("utf8")
                 res = json.loads(res)
+            
+            if res["code"] == Request.EDIT_MATCH:
+                serverTreeView.insert("", "end", text=rowsCounter, values=(address[0], address[1], "Ok", Request.EDIT_MATCH, "Edit match", datetime.now()))
+                rowsCounter += 1
+
+                response = DBMatchesHandler.getAllMatches()
+                matches = []
+                if response["status"] == 500:
+                    matches = []
+                elif response["status"] == 200:
+                    matches = response["data"]
+                connection.send(bytes(json.dumps({ "code": Response.EDIT_MATCH, "data": matches }),"utf8"))
+            
+            if res["code"] == Request.EDIT_MATCH_BY_ID:
+                idMatch = res["data"]
+                response = DBMatchesHandler.getMatchById(idMatch)
+                connection.send(bytes(json.dumps({ "code": Response.EDIT_MATCH_BY_ID, "data": response }), "utf8"))
+                serverTreeView.insert("", "end", text=rowsCounter, values=(address[0], address[1], "Ok", Request.VIEW_MATCH_BY_ID, "Edit match details", datetime.now()))
+                rowsCounter += 1
 
     except: #Client suddenly drops connection
         serverTreeView.insert("", "end", text=rowsCounter, values=(address[0], address[1], "Connection error", "", "", datetime.now()))

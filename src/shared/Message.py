@@ -17,6 +17,8 @@ class Response:
     REAL_TIME_MODE_INIT = "NnasdfAYSfnas"
     REAL_TIME_MODE = "OnHsnakDJHsnA"
     HALT_RT_MODE = "KdhASndgfyasnS"
+    EDIT_MATCH = "mHnsjfyNshajsv"
+    EDIT_MATCH_BY_ID = "YaSDnafhASDyjs"
 
     FORCE_CLOSE_CONNECTION = "HhjkkHujkhjkhHklhuhug"
 
@@ -36,3 +38,5 @@ class Request:
     REAL_TIME_MODE = "NsaGHasuThasn"
     REAL_TIME_MODE_DELAY = "NASFbahasdASD"
     HALT_RT_MODE = "HSJsDnGhsanajT"
+    EDIT_MATCH = "NjnsyHstGjaluN"
+    EDIT_MATCH_BY_ID = "LkasndYAShASDn"

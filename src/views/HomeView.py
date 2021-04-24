@@ -20,8 +20,18 @@ def viewAllMatch(client, layouts):
         messagebox.showerror("Error", "Connection error")
         layouts["homeScreen"].destroy()
 
-def initRT(client):
-    client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
+def initRT(client, layouts):
+    try:
+        client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
+    except:
+        messagebox.showerror("Error", "Connection error")
+        layouts["homeScreen"].destroy()
+def editMatch(client, layouts):
+    try:
+        client.send(bytes(json.dumps({ "code": Request.EDIT_MATCH }), "utf8"))
+    except:
+        messagebox.showerror("Error", "Connection error")
+        layouts["homeScreen"].destroy()
 
 def backToMain(layouts):
     layouts["homeScreen"].destroy()
@@ -51,13 +61,14 @@ def homeView(mainScreen, layouts, client, role):
         homeScreen.columnconfigure(1, weight=1)
         Button(
             homeScreen,
-            text="Add new match",
+            text="Edit match",
             height=2,
             width=30,
             bg="#212121",
             fg="#ff9017",
             activebackground="#363636",
             activeforeground="#e8e3e3",
+            command=partial(editMatch, client, layouts)
         ).grid(row=1, column=1, sticky="w")
 
     Button(
@@ -68,7 +79,7 @@ def homeView(mainScreen, layouts, client, role):
         fg="#ff9017",
         activebackground="#363636",
         activeforeground="#e8e3e3",
-        command=partial(initRT, client)
+        command=partial(initRT, client, layouts)
     ).grid(row=2, column=0, sticky="w")
 
     Button(

@@ -119,6 +119,12 @@ def receive():
                         flagF = False
                         break
                     realTimeView(client, msgRT["data"])
+            elif msg["code"] == Response.EDIT_MATCH:
+                editMatchesList(client, msg["data"])
+            elif msg["code"] == Response.EDIT_MATCH_BY_ID:
+                response = msg["data"]
+                if response["status"] == 200:
+                    editMatchDetail(response["data"])
 
         client.close()
     except Exception:
