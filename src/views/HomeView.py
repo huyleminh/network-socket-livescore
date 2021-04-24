@@ -61,7 +61,7 @@ def homeView(mainScreen, layouts, client, role):
         homeScreen.columnconfigure(1, weight=1)
         Button(
             homeScreen,
-            text="Edit match",
+            text="Edit match (developing)",
             height=2,
             width=30,
             bg="#212121",
