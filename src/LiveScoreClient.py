@@ -103,48 +103,21 @@ def receive():
                 client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
             elif msg["code"] == Response.REAL_TIME_MODE:
                 flagF = False
-                #global msgRT
-                #tempThread = Thread(target=realTime, args=(client,))
-                #tempThread.start()
                 while True:
-                    #time.sleep(1)
                     if flagF == False:
                         client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
-                    """if flagF == False:
-                        client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
-                        flagF = True"""
-                    #print("sended")
                     flag = False
                     msgRT = ""
                     while True:
-                        #print("hear")
-                        #time.sleep(1)
                         temp1 = client.recv(1024).decode("utf8")
                         msgRT += temp1
                         if len(temp1) != 1024:
-                            #print("append")
-                                #temp1 = client.recv(1024).decode("utf8")
-                            #break
-                            #print("break")
                             break
                     msgRT = json.loads(msgRT)
                     if msgRT["code"] == Response.HALT_RT_MODE:
-                        #print("halt")
                         flagF = False
                         break
-                        #flag = True
-                    #if flag == True:
-                        #print("break2")
-                        #break
-                    #print(msgRT["code"])
-                    
-                    #close = False
-                    #allMatchView(client, msg["data"])
                     realTimeView(client, msgRT["data"])
-                    #if close == False:
-                    
-            #elif msg["code"] == Response.HALT_RT_MODE:
-
 
         client.close()
     except Exception:

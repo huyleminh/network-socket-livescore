@@ -126,7 +126,6 @@ def clientThreadServerSide(connection, address):
                 connection.send(bytes(json.dumps({ "code": Response.VIEW_MATCH_BY_ID, "data": response }), "utf8"))
 
             if res["code"] == Request.REAL_TIME_MODE:
-                #time.sleep(1)
                 response = DBMatchesHandler.getAllMatches()
                 matches = []
                 if response["status"] == 500:
