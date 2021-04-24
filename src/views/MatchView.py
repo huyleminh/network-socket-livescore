@@ -128,9 +128,27 @@ def realTimeView(client, data):
     view.mainloop()
 
 def editMatchesList(client, data):
-    def onDoubleClick(event):
+    def onDoubleClick():
         currId = treeMatch.focus()
         editMatchByID(view, client, currId)
+    def select_rec():
+        selected = treeMatch.focus()
+        values = treeMatch.item(selected, "values")
+        box1.delete(0, END)
+        box2.delete(0, END)
+        box3.delete(0, END)
+        box4.delete(0, END)
+        box1.insert(0, values[0])
+        box2.insert(0, values[1])
+        box3.insert(0, values[2])
+        box4.insert(0, values[3])
+    def save():
+        selected = treeMatch.focus()
+        values = treeMatch.item(selected, text="", values=(box1.get(), box2.get(), box3.get(), box4.get()))
+        box1.delete(0, END)
+        box2.delete(0, END)
+        box3.delete(0, END)
+        box4.delete(0, END)
     view = Tk()
     view.title("All matches")
     WIDTH = view.winfo_screenwidth()
@@ -174,6 +192,24 @@ def editMatchesList(client, data):
             result = item["homeScore"] + " - " + item["awayScore"]
             treeMatch.insert("", "end", text=i + 1, iid=item["idMatch"], values=(item["status"], item["home"], result, item["away"]))
 
-    treeMatch.bind("<Double-1>", onDoubleClick)
+    #treeMatch.bind("<Double-1>", onDoubleClick)
+
+    box1 = Entry(view, width=40)
+    box2 = Entry(view, width=40)
+    box3 = Entry(view, width=40)
+    box4 = Entry(view, width=40)
+
+    my_button1= Button(view, text= "Select to edit score", command=select_rec)
+    my_button2= Button(view, text= "Select to edit detail", command=onDoubleClick)
+    my_button3= Button(view, text= "Save", command=save)
+
+
+    box1.pack()
+    box2.pack()
+    box3.pack()
+    box4.pack()
+    my_button1.pack(pady=5)
+    my_button2.pack(pady=5)
+    my_button3.pack(pady=5)
 
     view.mainloop()
