@@ -11,11 +11,16 @@ pathfile = Path(__file__).resolve()
 sharedRoot = pathfile.parents[1]
 sys.path.append(str(sharedRoot))
 
-from shared.Message import Request
+from shared.Message import Request, Response
 
 
 def viewMatchByID(view, client, idMatch):
     view.destroy()
+    time.sleep(0.5)
+    client.send(bytes(json.dumps({ "code": Request.VIEW_MATCH_BY_ID, "data": idMatch}), "utf8"))
+
+def viewMatchByID2(view, client, idMatch):
+    #view.destroy()
     time.sleep(0.5)
     client.send(bytes(json.dumps({ "code": Request.VIEW_MATCH_BY_ID, "data": idMatch}), "utf8"))
 
@@ -70,12 +75,12 @@ def allMatchView(client, data):
 
     view.mainloop()
 
+def onCloseWindow(client):
+    client.send(bytes(json.dumps({ "code": Request.HALT_RT_MODE }), "utf8"))
+
 def realTimeView(client, data):
-    def onDoubleClick(event):
-        currId = treeMatch.focus()
-        viewMatchByID(view, client, currId)
     view = Tk()
-    view.title("All matches")
+    view.title("Auto-Reload all matches")
     WIDTH = view.winfo_screenwidth()
     HEIGHT = view.winfo_screenheight()
     PADDING_LEFT = math.ceil(WIDTH / 3)
@@ -116,6 +121,8 @@ def realTimeView(client, data):
             result = item["homeScore"] + " - " + item["awayScore"]
             treeMatch.insert("", "end", text=i + 1, iid=item["idMatch"], values=(item["status"], item["home"], result, item["away"]))
 
-    treeMatch.bind("<Double-1>", onDoubleClick)
-
+    my_button= Button(master=view, text= "Stop real-time reload", font=('Helvetica bold', 10),
+    borderwidth=2, command= lambda: onCloseWindow(client))
+    my_button.pack(pady=5)
+    view.after(5000, lambda: view.destroy())
     view.mainloop()

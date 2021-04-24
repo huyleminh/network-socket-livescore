@@ -94,16 +94,35 @@ def receive():
                 break
             elif msg["code"] == Response.VIEW_ALL_MATCHES:
                 allMatchView(client, msg["data"])
+                #realTimeView(client, msg["data"])
             elif msg["code"] == Response.VIEW_MATCH_BY_ID:
                 response = msg["data"]
                 if response["status"] == 200:
                     detailMatchView(response["data"])
-            elif msg["code"] == Response.REAL_TIME_MODE:
-                break #developing
             elif msg["code"] == Response.FORCE_CLOSE_CONNECTION:
                 messagebox.showinfo("Alert", "Server forced you to close current connection")
-
                 client.send(bytes(json.dumps({ "code": Request.CLOSE_CONNECTION}), "utf8"))
+
+            elif msg["code"] == Response.REAL_TIME_MODE_INIT:
+                realTimeView(client, msg["data"])
+                client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
+            elif msg["code"] == Response.REAL_TIME_MODE:
+                flagF = False
+                while True:
+                    if flagF == False:
+                        client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
+                    flag = False
+                    msgRT = ""
+                    while True:
+                        temp1 = client.recv(1024).decode("utf8")
+                        msgRT += temp1
+                        if len(temp1) != 1024:
+                            break
+                    msgRT = json.loads(msgRT)
+                    if msgRT["code"] == Response.HALT_RT_MODE:
+                        flagF = False
+                        break
+                    realTimeView(client, msgRT["data"])
 
         client.close()
     except Exception:

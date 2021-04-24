@@ -164,6 +164,20 @@ def clientThreadServerSide(connection, address):
                 serverTreeView.insert("", "end", text=rowsCounter, values=(address[0], address[1], "Ok", Request.REAL_TIME_MODE, "View all matches - Real time", datetime.now()))
                 rowsCounter += 1
 
+            if res["code"] == Request.REAL_TIME_MODE_INIT:
+                response = DBMatchesHandler.getAllMatches()
+                matches = []
+                if response["status"] == 500:
+                    matches = []
+                elif response["status"] == 200:
+                    matches = response["data"]
+                connection.send(bytes(json.dumps({ "code": Response.REAL_TIME_MODE_INIT, "data": matches }),"utf8"))
+
+            if res["code"] == Request.HALT_RT_MODE:
+                connection.send(bytes(json.dumps({ "code": Response.HALT_RT_MODE }), "utf8"))
+                res = connection.recv(1024).decode("utf8")
+                res = json.loads(res)
+
     except: #Client suddenly drops connection
         serverTreeView.insert("", "end", text=rowsCounter, values=(address[0], address[1], "Connection error", "", "", datetime.now()))
         rowsCounter += 1

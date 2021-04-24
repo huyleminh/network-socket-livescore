@@ -20,6 +20,9 @@ def viewAllMatch(client, layouts):
         messagebox.showerror("Error", "Connection error")
         layouts["homeScreen"].destroy()
 
+def initRT(client):
+    client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE_INIT }), "utf8"))
+
 def backToMain(layouts):
     layouts["homeScreen"].destroy()
 
@@ -65,7 +68,7 @@ def homeView(mainScreen, layouts, client, role):
         fg="#ff9017",
         activebackground="#363636",
         activeforeground="#e8e3e3",
-        command=partial(viewAllMatch, client, layouts)
+        command=partial(initRT, client)
     ).grid(row=2, column=0, sticky="w")
 
     Button(
