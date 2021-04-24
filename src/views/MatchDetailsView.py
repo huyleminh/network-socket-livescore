@@ -99,6 +99,7 @@ def editMatchDetail(dataDetail):
     detailView = Tk()
     detailView.title("Edit details")
     detailView.configure(bg="#000000")
+    detailView.geometry("900x500")
 
     match = dataDetail["match"]
     homeScore = match["homeScore"]

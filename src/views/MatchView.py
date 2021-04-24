@@ -151,11 +151,7 @@ def editMatchesList(client, data):
         box4.delete(0, END)
     view = Tk()
     view.title("All matches")
-    WIDTH = view.winfo_screenwidth()
-    HEIGHT = view.winfo_screenheight()
-    PADDING_LEFT = math.ceil(WIDTH / 3)
-    PADDING_TOP = math.ceil(HEIGHT / 4)
-    view.geometry(str(math.ceil(WIDTH / 3)) + "x" + str(math.ceil(HEIGHT / 3)) + "+" + str(PADDING_LEFT) + "+" + str(PADDING_TOP))
+    view.geometry("900x500")
     view.configure(bg="#000000")
 
     styles = ttk.Style(view)

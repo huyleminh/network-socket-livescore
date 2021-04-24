@@ -22,8 +22,6 @@ class Response:
 
     FORCE_CLOSE_CONNECTION = "HhjkkHujkhjkhHklhuhug"
 
-    # AUTHENTICATION_REQUEST = "uekolwgbhdfJWSKLRF"
-
 class Request:
     INTERRUPT = "GUhfiufHhjuo"
     LOGIN_MODE = "HsadnFHasDn"
@@ -40,3 +38,6 @@ class Request:
     HALT_RT_MODE = "HSJsDnGhsanajT"
     EDIT_MATCH = "NjnsyHstGjaluN"
     EDIT_MATCH_BY_ID = "LkasndYAShASDn"
+
+    EDIT_MATCH_INFO = "iwebjyuqweFGYUfyklyu"
+    EDIT_MATCH_BY_ID_INFO = "ghyugyuiUYftyuVGBhjjk"

@@ -190,6 +190,13 @@ def clientThreadServerSide(connection, address):
                 serverTreeView.insert("", "end", text=rowsCounter, values=(address[0], address[1], "Ok", Request.VIEW_MATCH_BY_ID, "Edit match details", datetime.now()))
                 rowsCounter += 1
 
+            if res["code"] == Request.EDIT_MATCH_INFO:
+                data = res["data"]
+
+            if res["code"] == Request.EDIT_MATCH_BY_ID_INFO:
+                data = res["data"]
+
+
     except: #Client suddenly drops connection
         serverTreeView.insert("", "end", text=rowsCounter, values=(address[0], address[1], "Connection error", "", "", datetime.now()))
         rowsCounter += 1
