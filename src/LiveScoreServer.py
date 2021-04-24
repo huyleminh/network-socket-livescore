@@ -202,6 +202,12 @@ if __name__ == "__main__":
     serverScrollbar = ttk.Scrollbar(serverView, orient=VERTICAL, command=serverTreeView.yview)
     serverScrollbar.pack(side=RIGHT, fill=X)
 
+    # Styles:
+    styles = ttk.Style(serverView)
+    styles.theme_use("clam")
+    styles.configure("Treeview", rowheight=30)
+    styles.map("Treeview", background=[("selected", "#2433d6")])
+
     # Table configuration:
     serverTreeView["columns"] = ("IPAddress", "Port", "Status", "RequestCode", "RequestText", "Time")
 
@@ -223,7 +229,7 @@ if __name__ == "__main__":
 
     serverTreeView.pack(fill=BOTH)
 
-    Button(serverView, text="Disconnect all clients", bg="red", fg="white", command=disconectAll).pack()
+    Button(serverView, text="Disconnect all clients", bg="#e21818", fg="#ffffff", activebackground="#e02c2c", activeforeground="#ffffff", height=1, padx=2, pady=2, command=disconectAll).pack()
 
     serverView.protocol("WM_DELETE_WINDOW", onCloseWindow)
 

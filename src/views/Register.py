@@ -17,7 +17,7 @@ def sendRegister(client, username, password, registerScreen):
     try:
         client.send(bytes(json.dumps({ "code" : Request.REGISTER_MODE }), "utf8"))
     except:
-        messagebox.showerror("Error", "Server interrupted")
+        messagebox.showerror("Error", "Connection error")
         registerScreen.destroy()
         return
 

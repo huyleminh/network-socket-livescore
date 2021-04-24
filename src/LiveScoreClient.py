@@ -19,6 +19,12 @@ from views.Register import *
 
 Thread = threading.Thread
 client = socket.socket(ConstSock.IP_ADDRESS, ConstSock.PROTOCOL)
+
+# HOST = input("Input host ip: ")
+# PORT = input("Input port: ")
+# PORT = int(PORT)
+# client.connect((HOST, PORT))
+
 client.connect((ConstSock.HOST_IP, ConstSock.DEFAULT_PORT))
 
 login = { "status": False, "role": ""}
@@ -45,6 +51,10 @@ def receive():
                 mode = json.loads(mode)["code"]
                 if mode == Response.CLOSE_CONNECTION: # raise an error when choosing mode
                     raise Exception("Choose mode failed")
+
+                elif mode == Response.FORCE_CLOSE_CONNECTION:
+                    client.send(bytes(json.dumps({ "code": Request.CLOSE_CONNECTION }), "utf8"))
+
                 elif mode == Request.LOGIN_MODE:
                     msg = client.recv(1024).decode("utf8")
 
@@ -60,6 +70,7 @@ def receive():
                     elif msg == Login.FAILED:
                         layouts["login"].destroy()
                         messagebox.showwarning("Alert", "Unable to login, please try again.")
+
                 elif mode == Request.REGISTER_MODE:
                     msg = client.recv(1024).decode("utf8")
 

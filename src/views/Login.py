@@ -17,7 +17,7 @@ def sendLogin(client, username, password, loginScreen):
     try:
         client.send(bytes(json.dumps({ "code": Request.LOGIN_MODE }), "utf8"))
     except:
-        messagebox.showerror("Error", "Server interrupted")
+        messagebox.showerror("Error", "Connection error")
         loginScreen.destroy()
         return
     u = username.get()

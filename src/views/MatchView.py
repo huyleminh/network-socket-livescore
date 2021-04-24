@@ -33,6 +33,7 @@ def allMatchView(client, data):
     view.configure(bg="#000000")
 
     styles = ttk.Style(view)
+    styles.theme_use("default")
     styles.configure("Treeview", background="#000000", rowheight=30)
     styles.map("Treeview", background=[("selected", "#414141")], foreground=[("selected", "#ff8300"), ("!selected", "#f48f29")])
 
