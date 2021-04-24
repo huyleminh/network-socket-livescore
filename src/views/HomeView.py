@@ -16,7 +16,7 @@ def viewAllMatch(client):
     client.send(bytes(json.dumps({ "code": Request.VIEW_ALL_MATCHES }), "utf8"))
 
 def initRT(client):
-    client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
+    client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE_INIT }), "utf8"))
 
 def backToMain(layouts):
     layouts["homeScreen"].destroy()

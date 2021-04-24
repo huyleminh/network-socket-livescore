@@ -126,6 +126,7 @@ def clientThreadServerSide(connection, address):
                 connection.send(bytes(json.dumps({ "code": Response.VIEW_MATCH_BY_ID, "data": response }), "utf8"))
 
             if res["code"] == Request.REAL_TIME_MODE:
+                #time.sleep(1)
                 response = DBMatchesHandler.getAllMatches()
                 matches = []
                 if response["status"] == 500:
@@ -134,18 +135,19 @@ def clientThreadServerSide(connection, address):
                     matches = response["data"]
                 connection.send(bytes(json.dumps({ "code": Response.REAL_TIME_MODE, "data": matches }),"utf8"))
             
-            if res["code"] == Request.REAL_TIME_MODE_DELAY:
+            if res["code"] == Request.REAL_TIME_MODE_INIT:
                 response = DBMatchesHandler.getAllMatches()
                 matches = []
                 if response["status"] == 500:
                     matches = []
                 elif response["status"] == 200:
                     matches = response["data"]
-                time.sleep(2)
-                connection.send(bytes(json.dumps({ "code": Response.REAL_TIME_MODE, "data": matches }),"utf8"))
+                connection.send(bytes(json.dumps({ "code": Response.REAL_TIME_MODE_INIT, "data": matches }),"utf8"))
 
             if res["code"] == Request.HALT_RT_MODE:
-                connection.send(bytes(json.dumps({ "code": Response.HALT_RT_MODE, "data": matches }), "utf8"))
+                connection.send(bytes(json.dumps({ "code": Response.HALT_RT_MODE }), "utf8"))
+                res = connection.recv(1024).decode("utf8")
+                res = json.loads(res)
 
     except: #Client suddenly drops connection
         print("Client ", address," error detected. Auto close connection.")
