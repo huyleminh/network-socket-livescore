@@ -39,7 +39,7 @@ def detailMatchView(dataDetail):
     treeDetails.pack(fill=BOTH)
 
     result = match["homeScore"] + " - " + match["awayScore"]
-    treeDetails.insert("", "end", text="", values=(match["status"], match["home"], result, match["away"]))
+    treeDetails.insert("", "end", iid=match["idMatch"], text="", values=(match["status"], match["home"], result, match["away"]))
     treeDetails.insert("", "end", text="", values=("", "", "", ""))
 
     if dataDetail["details"] != {}:
@@ -91,11 +91,12 @@ def editMatchDetail(dataDetail):
     def save():
         selected = treeDetails.focus()
         values = treeDetails.item(selected, text="", values=(box1.get(), box2.get(), box3.get(), box4.get()))
+
         box1.delete(0, END)
         box2.delete(0, END)
         box3.delete(0, END)
         box4.delete(0, END)
-    
+
     detailView = Tk()
     detailView.title("Edit details")
     detailView.configure(bg="#000000")
@@ -131,7 +132,7 @@ def editMatchDetail(dataDetail):
     treeDetails.pack(fill=BOTH)
 
     result = match["homeScore"] + " - " + match["awayScore"]
-    treeDetails.insert("", "end", text="", values=(match["status"], match["home"], result, match["away"]))
+    treeDetails.insert("", "end", iid=match["idMatch"], text="", values=(match["status"], match["home"], result, match["away"]))
     treeDetails.insert("", "end", text="", values=("", "", "", ""))
 
     if dataDetail["details"] != {}:

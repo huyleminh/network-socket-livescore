@@ -144,11 +144,16 @@ def editMatchesList(client, data):
         box4.insert(0, values[3])
     def save():
         selected = treeMatch.focus()
+        print(selected)
         values = treeMatch.item(selected, text="", values=(box1.get(), box2.get(), box3.get(), box4.get()))
+
+        print(box1.get(), box2.get(), box3.get(), box4.get())
+
         box1.delete(0, END)
         box2.delete(0, END)
         box3.delete(0, END)
         box4.delete(0, END)
+
     view = Tk()
     view.title("All matches")
     view.geometry("900x500")
