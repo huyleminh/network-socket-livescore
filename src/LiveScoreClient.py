@@ -94,7 +94,6 @@ def receive():
                 break
             elif msg["code"] == Response.VIEW_ALL_MATCHES:
                 allMatchView(client, msg["data"])
-                #realTimeView(client, msg["data"])
             elif msg["code"] == Response.VIEW_MATCH_BY_ID:
                 response = msg["data"]
                 if response["status"] == 200:
@@ -103,9 +102,6 @@ def receive():
                 messagebox.showinfo("Alert", "Server forced you to close current connection")
                 client.send(bytes(json.dumps({ "code": Request.CLOSE_CONNECTION}), "utf8"))
 
-            elif msg["code"] == Response.REAL_TIME_MODE_INIT:
-                realTimeView(client, msg["data"])
-                client.send(bytes(json.dumps({ "code": Request.REAL_TIME_MODE }), "utf8"))
             elif msg["code"] == Response.REAL_TIME_MODE:
                 flagF = False
                 while True:

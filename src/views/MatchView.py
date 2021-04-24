@@ -19,11 +19,6 @@ def viewMatchByID(view, client, idMatch):
     time.sleep(0.5)
     client.send(bytes(json.dumps({ "code": Request.VIEW_MATCH_BY_ID, "data": idMatch}), "utf8"))
 
-def viewMatchByID2(view, client, idMatch):
-    #view.destroy()
-    time.sleep(0.5)
-    client.send(bytes(json.dumps({ "code": Request.VIEW_MATCH_BY_ID, "data": idMatch}), "utf8"))
-
 def allMatchView(client, data):
     def onDoubleClick(event):
         currId = treeMatch.focus()
