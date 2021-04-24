@@ -77,7 +77,7 @@ def detailMatchView(dataDetail):
 
 
 def editMatchDetail(dataDetail):
-    def onDoubleClick(event):
+    def onDoubleClick():
         selected = treeDetails.focus()
         values = treeDetails.item(selected, "values")
         box1.delete(0, END)
@@ -97,7 +97,7 @@ def editMatchDetail(dataDetail):
         box4.delete(0, END)
     
     detailView = Tk()
-    detailView.title("View details")
+    detailView.title("Edit details")
     detailView.configure(bg="#000000")
 
     match = dataDetail["match"]
@@ -172,12 +172,14 @@ def editMatchDetail(dataDetail):
     box4 = Entry(detailView, width=40)
 
     my_button= Button(detailView, text= "Save", command=save)
+    my_button1= Button(detailView, text= "Select to edit", command=onDoubleClick)
     
 
     box1.pack()
     box2.pack()
     box3.pack()
     box4.pack()
+    my_button1.pack(pady=5)
     my_button.pack(pady=5)
 
     detailView.mainloop()

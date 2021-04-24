@@ -199,7 +199,7 @@ def editMatchesList(client, data):
     box3 = Entry(view, width=40)
     box4 = Entry(view, width=40)
 
-    my_button1= Button(view, text= "Select to edit score", command=select_rec)
+    my_button1= Button(view, text= "Select to edit", command=select_rec)
     my_button2= Button(view, text= "Select to edit detail", command=onDoubleClick)
     my_button3= Button(view, text= "Save", command=save)
 
